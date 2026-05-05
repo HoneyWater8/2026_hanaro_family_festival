@@ -3,7 +3,9 @@
    아멘 17기 · Wave Layers
    ───────────────────────────────────────────────────────── */
 
-export const CONCEPT_D = {
+import type { ConceptD } from './types';
+
+export const D: ConceptD = {
   event: {
     host: "HANARO",
     title: "하나로 가족한마당",
@@ -52,7 +54,7 @@ export const CONCEPT_D = {
     pullQuote: "함께 만드는,\n특별한 하루."
   },
 
-  // 04 TIMELINE — 행사 시간표 12개 (그룹 디바이더)
+  // 04 TIMELINE — 행사 시간표 16개 (그룹 디바이더)
   timeline: [
     { group: "오프닝", time: "~09:55", title: "접수",      desc: "기존가족·새가족 구분 팔찌 배부 (주차 큐알코드 구분)" },
     { group: "오프닝", time: "10:00",  title: "집합",      desc: "운동장 중앙 집합 (사회: 이용규·서유리 집사)" },
@@ -73,85 +75,6 @@ export const CONCEPT_D = {
 
     { group: "폐막",   time: "15:35",  title: "축복상 추첨",     desc: "기존가족·새가족·교회학교 게임 참여자" },
     { group: "폐막",   time: "15:55",  title: "폐회선언",        desc: "담임목사님 폐막 선언 및 기도" }
-  ],
-
-  // 05 PROGRAM — 부스 / 놀이시설 (카테고리별 + 연령별 토글)
-  programOps: {
-    morning:  "11:00 ~ 13:00 오전 부스 운영",
-    lunch:    "13:00 ~ 14:00 점심 휴식",
-    afternoon:"14:00 ~ 16:00 오후 부스 운영"
-  },
-  programCategories: [
-    {
-      key: "kids",
-      label: "유아부 놀이 체험존",
-      sub: "유아 ~ 미취학",
-      accent: "Lime",
-      items: [
-        { name: "에어바운스",     desc: "1~5세 전용 · 안전한 점프대" },
-        { name: "작은 풀장",      desc: "1~5세 전용 · 여름 물놀이" },
-        { name: "페이스 페인팅",  desc: "캐릭터·그림으로 예쁘게 꾸미기" },
-        { name: "아트 풍선",     desc: "원하는 모양의 풍선 선물" },
-        { name: "레고·블록 조립", desc: "작은 블록으로 나만의 작품" },
-        { name: "솜사탕",        desc: "달콤하고 폭신한 간식" },
-        { name: "퍼즐 맞추기",    desc: "그림 퍼즐 완성하기" },
-        { name: "낚시 게임",      desc: "자석 낚시로 물고기 잡기" },
-        { name: "부채 꾸미기",    desc: "여름을 시원하게 보낼 부채" },
-        { name: "쿠키 꾸미기",    desc: "쿠키를 자유롭게 장식" }
-      ]
-    },
-    {
-      key: "elem",
-      label: "초등부 스탬프 미션존",
-      sub: "스탬프 5개·10개로 선물 뽑기",
-      accent: "Sun",
-      items: [
-        { name: "접시 넣기",    desc: "표적 안 접시에 골인" },
-        { name: "고리 던지기",  desc: "고깔에 정확히 걸기" },
-        { name: "공 던지기",    desc: "타겟 명중시키기" },
-        { name: "낚시 게임",    desc: "시간 내 대어 도전" },
-        { name: "다트 맞추기",  desc: "과녁에 다트 명중" },
-        { name: "성경 퀴즈",    desc: "성경 상식 문제" },
-        { name: "탁구공 옮기기", desc: "숟가락으로 공 이동" },
-        { name: "스피드 컵 쌓기", desc: "제한 시간 내 정해진 모양으로" },
-        { name: "병뚜껑 다트",   desc: "표적 안에 멈추기" },
-        { name: "뽑기",         desc: "미션 성공 후 뽑기 도전" }
-      ]
-    },
-    {
-      key: "rec",
-      label: "레크리에이션",
-      sub: "6~19세 · 11:00~15:00 별도 운영",
-      accent: "Ocean",
-      items: [
-        { name: "물컵 들고 달리기", desc: "종이컵 사용" },
-        { name: "신발 던지기",     desc: "남·여 구분 경기" },
-        { name: "보물찾기",        desc: "푸짐한 경품" },
-        { name: "모셔오기 게임",   desc: "초·중·고등" },
-        { name: "큰 공 굴리기",    desc: "청 vs 백전" },
-        { name: "족구 결승",       desc: "목사님팀 vs 교구팀" }
-      ]
-    },
-    {
-      key: "all",
-      label: "포토 · 캘리그라피",
-      sub: "전 연령",
-      accent: "Aqua",
-      items: [
-        { name: "인생네컷",       desc: "현장 즉석 사진" },
-        { name: "캘리그라피",     desc: "사전 300장 + 현장 70장" }
-      ]
-    },
-    {
-      key: "bazaar",
-      label: "사랑의 바자회",
-      sub: "수익금 전액 선교헌금",
-      accent: "Sun",
-      highlight: true,
-      items: [
-        { name: "교우 기증품 판매", desc: "집에 있는 좋은 물건을 기증해 주세요" }
-      ]
-    }
   ],
 
   // 05 PROGRAM — 연령별 캐러셀 (3행: 전연령 / 초등부 / 유아부)
@@ -254,7 +177,7 @@ export const CONCEPT_D = {
     { label: "주의사항",        detail: "소화전 5m 이내, 공장 출입구 주변 절대 주차 금지" }
   ],
 
-  // 08 GALLERY — 사진 자리 (2025 하가한 등)
+  // 08 GALLERY — 사진 자리
   gallery: [
     { caption: "2025 하가한", year: "2025" },
     { caption: "2025 하가한", year: "2025" },
