@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>하나로 가족한마당 — 컬러 시스템</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ff-display: 'Gowun Batang', serif;
+    --ff-body: 'Noto Sans KR', sans-serif;
+    --ff-mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  html, body { margin: 0; padding: 0; background: #F6F1E7; color: #2A1810; font-family: var(--ff-body); }
+  .page { max-width: 920px; margin: 0 auto; padding: 64px 40px 120px; }
+
+  h1 { font-family: var(--ff-display); font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 6px; }
+  .kicker { font-size: 11px; letter-spacing: 0.3em; color: #C8432A; font-weight: 600; margin-bottom: 16px; }
+  .lead { font-size: 15px; color: #5B3A28; line-height: 1.7; max-width: 560px; margin: 0 0 56px; }
+
+  h2 { font-family: var(--ff-display); font-size: 26px; font-weight: 700; margin: 56px 0 8px; letter-spacing: -0.01em; }
+  .sub { font-size: 13px; color: #8B6F5E; margin-bottom: 24px; }
+
+  .palettes { display: grid; grid-template-columns: 1fr; gap: 28px; }
+  .palette {
+    background: #FFFDF8; border: 1px solid rgba(42,24,16,0.1);
+    border-radius: 20px; overflow: hidden;
+  }
+  .p-head { padding: 22px 24px 18px; display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid rgba(42,24,16,0.08); }
+  .p-name { font-family: var(--ff-display); font-size: 22px; font-weight: 700; }
+  .p-tag { font-size: 11px; letter-spacing: 0.18em; color: #8B6F5E; }
+  .p-desc { margin-left: auto; font-size: 12px; color: #5B3A28; text-align: right; max-width: 320px; line-height: 1.5; }
+
+  .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
+  @media (max-width: 720px) { .swatches { grid-template-columns: repeat(2, 1fr); } .p-desc { display: none; } }
+  .sw { padding: 18px 16px 16px; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid rgba(42,24,16,0.06); }
+  .sw:last-child { border-right: none; }
+  .sw-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .sw-role { font-size: 10px; letter-spacing: 0.16em; font-weight: 600; opacity: 0.7; }
+  .sw-hex { font-family: var(--ff-mono); font-size: 11px; font-weight: 500; opacity: 0.7; }
+  .sw-name { font-family: var(--ff-display); font-size: 16px; font-weight: 700; margin-top: auto; }
+
+  .usage { padding: 20px 24px; background: rgba(42,24,16,0.02); border-top: 1px solid rgba(42,24,16,0.06); }
+  .usage-title { font-size: 10px; letter-spacing: 0.24em; color: #8B6F5E; margin-bottom: 10px; font-weight: 600; }
+  .usage-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; font-size: 12px; }
+  @media (max-width: 720px) { .usage-grid { grid-template-columns: 1fr; } }
+  .usage-grid div { line-height: 1.5; color: #5B3A28; }
+  .usage-grid b { font-weight: 600; color: #2A1810; }
+
+  /* semantic table */
+  .sem { background: #FFFDF8; border: 1px solid rgba(42,24,16,0.1); border-radius: 16px; overflow: hidden; }
+  .sem-row { display: grid; grid-template-columns: 200px 1fr 140px; gap: 20px; padding: 14px 20px; border-bottom: 1px solid rgba(42,24,16,0.08); font-size: 13px; align-items: center; }
+  .sem-row:last-child { border-bottom: none; }
+  .sem-row.head { background: rgba(42,24,16,0.04); font-size: 10px; letter-spacing: 0.2em; color: #8B6F5E; font-weight: 600; padding: 12px 20px; }
+  .sem-token { font-family: var(--ff-mono); color: #C8432A; font-size: 12px; }
+  .sem-use { color: #5B3A28; }
+  .sem-chip { display: flex; align-items: center; gap: 8px; font-family: var(--ff-mono); font-size: 11px; color: #5B3A28; }
+  .sem-chip span { width: 22px; height: 22px; border-radius: 6px; border: 1px solid rgba(42,24,16,0.15); flex-shrink: 0; }
+
+  /* code block */
+  pre { background: #2A1810; color: #FFF8EE; padding: 20px 24px; border-radius: 16px; overflow-x: auto; font-family: var(--ff-mono); font-size: 12px; line-height: 1.7; }
+  pre .c { color: #8B6F5E; }
+  pre .k { color: #E8B93C; }
+  pre .s { color: #F4B79E; }
+
+  .downloads { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .dl { padding: 8px 14px; border-radius: 10px; background: #2A1810; color: #FFF8EE; font-size: 12px; text-decoration: none; font-family: var(--ff-mono); }
+  .dl.ghost { background: transparent; color: #2A1810; border: 1px solid rgba(42,24,16,0.2); }
+
+  /* preview bar */
+  .combo { height: 8px; display: flex; }
+  .combo span { flex: 1; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="kicker">COLOR SYSTEM</div>
+  <h1>하나로 가족한마당</h1>
+  <p class="lead">
+    모바일 초대장에 사용되는 3개 팔레트와 시맨틱 토큰 정의.
+    각 팔레트는 5개의 역할 색(잉크 · 잉크2 · 뮤티드 · 주조색 · 보조색)으로 구성되며,
+    배경(크림 · 페이퍼)과 경계선(라인)은 공통 규칙을 따릅니다.
+  </p>
+
+  <!-- ─── Palettes ─── -->
+  <h2>팔레트</h2>
+  <div class="sub">3종 · 기본은 Coral</div>
+
+  <div class="palettes">
+
+    <!-- CORAL -->
+    <div class="palette">
+      <div class="p-head">
+        <div class="p-name">Coral</div>
+        <div class="p-tag">FESTIVAL · WARM</div>
+        <div class="p-desc">따뜻한 축제의 분위기. 봄 햇살 같은 코랄과 머스타드로 가족의 정을 표현.</div>
+      </div>
+      <div class="combo">
+        <span style="background:#2A1810"></span>
+        <span style="background:#5B3A28"></span>
+        <span style="background:#8B6F5E"></span>
+        <span style="background:#E85A3C"></span>
+        <span style="background:#E8B93C"></span>
+      </div>
+      <div class="swatches">
+        <div class="sw" style="background:#2A1810;color:#FFF8EE">
+          <div class="sw-top"><div class="sw-role">INK</div><div class="sw-hex">#2A1810</div></div>
+          <div class="sw-name">Dark Chestnut</div>
+        </div>
+        <div class="sw" style="background:#5B3A28;color:#FFF8EE">
+          <div class="sw-top"><div class="sw-role">INK-2</div><div class="sw-hex">#5B3A28</div></div>
+          <div class="sw-name">Cocoa</div>
+        </div>
+        <div class="sw" style="background:#8B6F5E;color:#FFF8EE">
+          <div class="sw-top"><div class="sw-role">MUTED</div><div class="sw-hex">#8B6F5E</div></div>
+          <div class="sw-name">Warm Taupe</div>
+        </div>
+        <div class="sw" style="background:#E85A3C;color:#FFF8EE">
+          <div class="sw-top"><div class="sw-role">PRIMARY</div><div class="sw-hex">#E85A3C</div></div>
+          <div class="sw-name">Festival Coral</div>
+        </div>
+        <div class="sw" style="background:#E8B93C;color:#2A1810">
+          <div class="sw-top"><div class="sw-role">ACCENT</div><div class="sw-hex">#E8B93C</div></div>
+          <div class="sw-name">Sun Mustard</div>
+        </div>
+      </div>
+      <div class="usage">
+        <div class="usage-title">USAGE</div>
+        <div class="usage-grid">
+          <div><b>Cream #FFF8EE</b><br/>히어로 배경, 섹션 분리</div>
+          <div><b>Paper #FFFDF8</b><br/>카드 배경</div>
+          <div><b>Line rgba(42,24,16,.12)</b><br/>구분선, 카드 테두리</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HANBOK -->
+    <div class="palette">
+      <div class="p-head">
+        <div class="p-name">Hanbok</div>
+        <div class="p-tag">TRADITIONAL · FORMAL</div>
+        <div class="p-desc">단정한 한국의 색. 감색과 단청 홍색으로 격식 있는 초대의 느낌.</div>
+      </div>
+      <div class="combo">
+        <span style="background:#1F2340"></span>
+        <span style="background:#3B3F6B"></span>
+        <span style="background:#7B7FA3"></span>
+        <span style="background:#C23B4A"></span>
+        <span style="background:#D9A441"></span>
+      </div>
+      <div class="swatches">
+        <div class="sw" style="background:#1F2340;color:#F5EEE0">
+          <div class="sw-top"><div class="sw-role">INK</div><div class="sw-hex">#1F2340</div></div>
+          <div class="sw-name">Gamsaek</div>
+        </div>
+        <div class="sw" style="background:#3B3F6B;color:#F5EEE0">
+          <div class="sw-top"><div class="sw-role">INK-2</div><div class="sw-hex">#3B3F6B</div></div>
+          <div class="sw-name">Cheong</div>
+        </div>
+        <div class="sw" style="background:#7B7FA3;color:#F5EEE0">
+          <div class="sw-top"><div class="sw-role">MUTED</div><div class="sw-hex">#7B7FA3</div></div>
+          <div class="sw-name">Lavender Mist</div>
+        </div>
+        <div class="sw" style="background:#C23B4A;color:#F5EEE0">
+          <div class="sw-top"><div class="sw-role">PRIMARY</div><div class="sw-hex">#C23B4A</div></div>
+          <div class="sw-name">Dancheong Red</div>
+        </div>
+        <div class="sw" style="background:#D9A441;color:#1F2340">
+          <div class="sw-top"><div class="sw-role">ACCENT</div><div class="sw-hex">#D9A441</div></div>
+          <div class="sw-name">Royal Gold</div>
+        </div>
+      </div>
+      <div class="usage">
+        <div class="usage-title">USAGE</div>
+        <div class="usage-grid">
+          <div><b>Cream #F5EEE0</b><br/>한지 느낌 배경</div>
+          <div><b>Paper #FBF6ED</b><br/>카드 배경</div>
+          <div><b>Line rgba(31,35,64,.14)</b><br/>구분선, 카드 테두리</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAGE -->
+    <div class="palette">
+      <div class="p-head">
+        <div class="p-name">Sage</div>
+        <div class="p-tag">NATURE · CALM</div>
+        <div class="p-desc">자연의 초록과 흙빛. 공원에서의 가족 피크닉 같은 고요하고 차분한 톤.</div>
+      </div>
+      <div class="combo">
+        <span style="background:#223028"></span>
+        <span style="background:#3E5544"></span>
+        <span style="background:#7A8D7F"></span>
+        <span style="background:#D97752"></span>
+        <span style="background:#C9A646"></span>
+      </div>
+      <div class="swatches">
+        <div class="sw" style="background:#223028;color:#F2EFE4">
+          <div class="sw-top"><div class="sw-role">INK</div><div class="sw-hex">#223028</div></div>
+          <div class="sw-name">Forest Ink</div>
+        </div>
+        <div class="sw" style="background:#3E5544;color:#F2EFE4">
+          <div class="sw-top"><div class="sw-role">INK-2</div><div class="sw-hex">#3E5544</div></div>
+          <div class="sw-name">Moss</div>
+        </div>
+        <div class="sw" style="background:#7A8D7F;color:#F2EFE4">
+          <div class="sw-top"><div class="sw-role">MUTED</div><div class="sw-hex">#7A8D7F</div></div>
+          <div class="sw-name">Sage Fog</div>
+        </div>
+        <div class="sw" style="background:#D97752;color:#F2EFE4">
+          <div class="sw-top"><div class="sw-role">PRIMARY</div><div class="sw-hex">#D97752</div></div>
+          <div class="sw-name">Terracotta</div>
+        </div>
+        <div class="sw" style="background:#C9A646;color:#223028">
+          <div class="sw-top"><div class="sw-role">ACCENT</div><div class="sw-hex">#C9A646</div></div>
+          <div class="sw-name">Harvest</div>
+        </div>
+      </div>
+      <div class="usage">
+        <div class="usage-title">USAGE</div>
+        <div class="usage-grid">
+          <div><b>Cream #F2EFE4</b><br/>자연광 느낌 배경</div>
+          <div><b>Paper #FAF8EE</b><br/>카드 배경</div>
+          <div><b>Line rgba(34,48,40,.12)</b><br/>구분선, 카드 테두리</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── Semantic tokens ─── -->
+  <h2>시맨틱 토큰</h2>
+  <div class="sub">팔레트와 무관하게 의미로 참조하는 토큰. 팔레트를 바꿔도 역할은 동일.</div>
+
+  <div class="sem">
+    <div class="sem-row head">
+      <div>TOKEN</div>
+      <div>USE</div>
+      <div>CORAL</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-ink</div>
+      <div class="sem-use">본문 제목, 큰 숫자, 주요 CTA 배경</div>
+      <div class="sem-chip"><span style="background:#2A1810"></span>#2A1810</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-ink-2</div>
+      <div class="sem-use">본문 텍스트, 초대의 글, 설명문</div>
+      <div class="sem-chip"><span style="background:#5B3A28"></span>#5B3A28</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-muted</div>
+      <div class="sem-use">캡션, 보조 설명, 아이콘 라벨</div>
+      <div class="sem-chip"><span style="background:#8B6F5E"></span>#8B6F5E</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-primary</div>
+      <div class="sem-use">주조색 · 카운트다운 강조, 지도 핀, 타임라인 도트, RSVP 선택</div>
+      <div class="sem-chip"><span style="background:#E85A3C"></span>#E85A3C</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-primary-deep</div>
+      <div class="sem-use">주조색 그라디언트 종점, 키커 텍스트</div>
+      <div class="sem-chip"><span style="background:#C8432A"></span>#C8432A</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-accent</div>
+      <div class="sem-use">보조색 · 크레스트 중심부, 리본 장식</div>
+      <div class="sem-chip"><span style="background:#E8B93C"></span>#E8B93C</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-sage</div>
+      <div class="sem-use">자연 요소 · 공원, 사진 톤, RSVP 완료 배경</div>
+      <div class="sem-chip"><span style="background:#6B8F5E"></span>#6B8F5E</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-cream</div>
+      <div class="sem-use">섹션 배경 그라디언트, 버튼 라벨</div>
+      <div class="sem-chip"><span style="background:#FFF8EE;border:1px solid rgba(0,0,0,0.1)"></span>#FFF8EE</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-paper</div>
+      <div class="sem-use">카드 · 컨테이너 배경</div>
+      <div class="sem-chip"><span style="background:#FFFDF8;border:1px solid rgba(0,0,0,0.1)"></span>#FFFDF8</div>
+    </div>
+    <div class="sem-row">
+      <div class="sem-token">--c-line</div>
+      <div class="sem-use">구분선, 카드 테두리 (0.12 알파)</div>
+      <div class="sem-chip"><span style="background:rgba(42,24,16,0.12)"></span>rgba .12</div>
+    </div>
+  </div>
+
+  <!-- ─── Files ─── -->
+  <h2>내보낸 파일</h2>
+  <div class="sub">아래 파일들이 프로젝트에 저장되었습니다.</div>
+
+  <pre><span class="c">// tokens.css</span>  <span class="c">— CSS 커스텀 프로퍼티</span>
+<span class="c">// tokens.json</span> <span class="c">— JSON 포맷 (Figma / Style Dictionary 등)</span>
+<span class="c">// tokens.js</span>   <span class="c">— JavaScript 객체</span></pre>
+
+  <div class="downloads">
+    <a class="dl" href="tokens.css" target="_blank">tokens.css</a>
+    <a class="dl" href="tokens.json" target="_blank">tokens.json</a>
+    <a class="dl" href="tokens.js" target="_blank">tokens.js</a>
+  </div>
+
+</div>
+</body>
+</html>

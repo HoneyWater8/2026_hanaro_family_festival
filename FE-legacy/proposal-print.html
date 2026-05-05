@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1200" />
+<title>하나로 가족한마당 · 디자인 제안서 (PDF)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Archivo+Black&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: #FAFAF7;
+    font-family: 'Pretendard', -apple-system, sans-serif; color: #111827;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  img { display: block; max-width: 100%; }
+
+  /* 화면 미리보기에서도 페이지 단위가 보이게 */
+  #root > section {
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.04);
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  @media print {
+    html, body {
+      background: #FAFAF7 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    /* 각 섹션을 새 페이지에서 시작 */
+    #root > section {
+      break-before: page;
+      page-break-before: always;
+      box-shadow: none !important;
+    }
+    /* 첫 섹션은 페이지 break 없이 시작 */
+    #root > section:first-child {
+      break-before: auto;
+      page-break-before: auto;
+    }
+    /* 모든 자식 컨테이너에 색상 강제 */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    /* 인터랙션/애니메이션 비활성 */
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+    /* 화면 클리핑 제거 (콘텐츠 잘림 방지) */
+    section {
+      overflow: visible !important;
+    }
+    /* 와이어프레임 블록은 새 페이지에서 시작 */
+    .wireframe-block {
+      break-before: page !important;
+      page-break-before: always !important;
+      padding-top: 60px !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="proposal-data.js"></script>
+<script type="text/babel" src="concept-card.jsx"></script>
+<script type="text/babel" src="wireframes.jsx"></script>
+<script type="text/babel" src="proposal-app.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+  // 폰트 로드 + JSX 렌더 완료 후 자동 인쇄 다이얼로그
+  (async () => {
+    try {
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+    } catch(e) {}
+    // React 렌더 + 이미지 로드 대기
+    await new Promise(r => setTimeout(r, 800));
+    if (!window.__skipAutoPrint) {
+      window.print();
+    }
+  })();
+</script>
+</body>
+</html>

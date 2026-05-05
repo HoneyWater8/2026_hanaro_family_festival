@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Solar Pop · 하나로 가족한마당</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: #4D089A;
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    color: #111827;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+  #root {
+    height: 100vh;
+    height: 100dvh;
+    width: 100vw;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+  }
+  /* 프레임 OFF (기본): 풀 뷰포트 — body 배경은 첫 섹션 컬러와 동일 */
+  body.no-frame { background: #4D089A; }
+  /* 프레임 ON: 가운데 정렬 + 어두운 배경 */
+  body.frame-on { background: #0a0a14; }
+  body.frame-on #root { align-items: center; }
+  /* 토글 버튼 */
+  .frame-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 1000;
+    width: 44px; height: 28px; border-radius: 999px;
+    background: rgba(255,255,255,0.18); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer; padding: 0;
+    transition: background 0.25s ease;
+  }
+  .frame-toggle::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fff;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  body.frame-on .frame-toggle::after { transform: translateX(16px); background: #E3F044; }
+  .frame-toggle-label {
+    position: fixed; top: 22px; right: 70px; z-index: 1000;
+    font-family: 'Archivo Black', sans-serif; font-size: 10px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.8); pointer-events: none;
+  }
+  /* 스크롤바 숨김 · 기능은 유지 */
+  .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .no-scrollbar::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+  /* 스크롤 인디케이터 애니메이션 · 손가락 스와이프 업 */
+  @keyframes solarpop-swipe-up {
+    0%   { transform: translate(-50%, 0);    opacity: 0; }
+    15%  { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { transform: translate(-50%, -28px); opacity: 0; }
+  }
+
+  /* 갤러리 마퀴 · 카드 width 130 + gap 8 = 138, 6장 × 2 = 1656px */
+  @keyframes solarpop-marquee-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes solarpop-marquee-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  /* RSVP 버튼 문구 플립 */
+  @keyframes solarpop-rsvp-flip {
+    0%   { transform: translateY(8px) scale(0.92); opacity: 0; }
+    60%  { transform: translateY(-2px) scale(1.04); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+</style>
+</head>
+<body class="no-frame">
+<button class="frame-toggle" aria-label="Toggle device frame" onclick="document.body.classList.toggle('frame-on'); document.body.classList.toggle('no-frame'); window.dispatchEvent(new Event('frame-toggle'));"></button>
+<span class="frame-toggle-label">FRAME</span>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="concept-b-data.js"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="solar-pop-app.jsx"></script>
+</body>
+</html>

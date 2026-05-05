@@ -1,0 +1,53 @@
+/* ─────────────────────────────────────────────────────────
+   하나로 가족한마당 — Color Tokens
+   3 palettes (Coral / Hanbok / Sage) + semantic roles.
+   Apply a palette by adding its class to <html> or <body>.
+   ───────────────────────────────────────────────────────── */
+
+:root, .palette-coral {
+  /* Ink (text) */
+  --c-ink:          #2A1810;
+  --c-ink-2:        #5B3A28;
+  --c-muted:        #8B6F5E;
+
+  /* Brand */
+  --c-primary:      #E85A3C;
+  --c-primary-deep: #C8432A;
+  --c-accent:       #E8B93C;
+  --c-sage:         #6B8F5E;
+
+  /* Surfaces */
+  --c-cream:        #FFF8EE;
+  --c-paper:        #FFFDF8;
+  --c-line:         rgba(42, 24, 16, 0.12);
+}
+
+.palette-hanbok {
+  --c-ink:          #1F2340;
+  --c-ink-2:        #3B3F6B;
+  --c-muted:        #7B7FA3;
+
+  --c-primary:      #C23B4A;
+  --c-primary-deep: #9B1E2C;
+  --c-accent:       #D9A441;
+  --c-sage:         #3D6A5C;
+
+  --c-cream:        #F5EEE0;
+  --c-paper:        #FBF6ED;
+  --c-line:         rgba(31, 35, 64, 0.14);
+}
+
+.palette-sage {
+  --c-ink:          #223028;
+  --c-ink-2:        #3E5544;
+  --c-muted:        #7A8D7F;
+
+  --c-primary:      #D97752;
+  --c-primary-deep: #B55A3A;
+  --c-accent:       #C9A646;
+  --c-sage:         #4F7A5C;
+
+  --c-cream:        #F2EFE4;
+  --c-paper:        #FAF8EE;
+  --c-line:         rgba(34, 48, 40, 0.12);
+}
