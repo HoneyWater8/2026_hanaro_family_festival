@@ -5,6 +5,37 @@ import { Reveal } from '../common/Reveal';
 import { HanHead } from '../common/HanHead';
 import { IssueLabel } from '../common/IssueLabel';
 import { MorphingWave } from '../common/MorphingWave';
+import { MiniCalendar } from '../common/MiniCalendar';
+import { CopyButton } from '../common/CopyButton';
+import {
+  kakaoMapUrl,
+  kakaoNaviUrl,
+  naverMapUrl,
+  tmapUrl,
+  isWebUrl,
+  type LocationInfo,
+} from '../../utils/mapLinks';
+
+// "2026.06.03" → [2026, 6, 3]. month는 1-indexed로 들어와서 MiniCalendar에 넘길 땐 -1.
+const [SCHEDULE_YEAR, SCHEDULE_MONTH, SCHEDULE_DAY] =
+  D.schedule.date.split('.').map(Number);
+
+/**
+ * 지도/내비 앱 바로가기 정의.
+ * `icon` 필드를 채우면 아이콘 이미지가 placeholder 자리에 자동 표시됨.
+ * 1. public/icons/ 폴더에 SVG/PNG 파일 추가
+ * 2. 아래 주석을 해제해 경로 지정
+ */
+const MAP_LINKS: Array<{
+  label: string;
+  getUrl: (loc: LocationInfo) => string;
+  icon?: string;
+}> = [
+  { label: '카카오맵',   getUrl: kakaoMapUrl, icon: '/icons/kakaomap.svg' },
+  { label: '카카오내비', getUrl: kakaoNaviUrl, icon: '/icons/kakaonavi.svg' },
+  { label: '네이버지도', getUrl: naverMapUrl, icon: '/icons/navermap.png' },
+  { label: 'T맵',         getUrl: tmapUrl, icon: '/icons/tmap.svg' },
+];
 
 export const WhenWhere = memo(function WhenWhere() {
   return (
@@ -44,6 +75,18 @@ export const WhenWhere = memo(function WhenWhere() {
           <div style={{ marginTop: 8, fontFamily: FF.sans, fontSize: 13, color: WL.ink, fontWeight: 600 }}>
             {D.schedule.timeDisplay} · {D.schedule.dayKo}
           </div>
+
+          {/* 미니 달력 — 행사 날짜 시각화 */}
+          <div style={{
+            marginTop: 16, paddingTop: 14,
+            borderTop: `1px solid ${WL.ink}1a`,
+          }}>
+            <MiniCalendar
+              year={SCHEDULE_YEAR}
+              month={SCHEDULE_MONTH - 1}
+              highlightDay={SCHEDULE_DAY}
+            />
+          </div>
         </div>
       </Reveal>
 
@@ -59,14 +102,13 @@ export const WhenWhere = memo(function WhenWhere() {
             background: WL.ocean, color: WL.paper,
             fontFamily: FF.bebas, fontSize: 10, letterSpacing: 2, padding: '3px 8px'
           }}>VENUE</div>
-          <div style={{ fontFamily: FF.bebas, fontSize: 22, color: WL.ink, letterSpacing: 1 }}>
-            {D.location.nameEn}
-          </div>
           <div style={{ fontFamily: FF.serif, fontSize: 16, color: WL.ink, marginTop: 4, fontWeight: 700 }}>
             {D.location.name}
           </div>
           <div style={{ marginTop: 10, fontFamily: FF.sans, fontSize: 12, color: WL.ink, opacity: 0.8, lineHeight: 1.6 }}>
-            {D.location.address}<br />
+            {D.location.address}
+            <CopyButton text={D.location.address} />
+            <br />
             {D.location.detail}
           </div>
           <div style={{
@@ -74,6 +116,84 @@ export const WhenWhere = memo(function WhenWhere() {
             fontFamily: FF.sans, fontSize: 11, color: WL.ink, fontWeight: 700
           }}>
             {D.location.fromChurch} · 셔틀버스 운행
+          </div>
+
+          {/* 외부 지도/내비 앱 바로가기 */}
+          <div style={{
+            marginTop: 14, paddingTop: 12,
+            borderTop: `1px solid ${WL.ocean}33`,
+          }}>
+            <div style={{
+              fontFamily: FF.bebas, fontSize: 10, letterSpacing: 2.5,
+              color: WL.ocean, opacity: 0.9, marginBottom: 8,
+            }}>
+              NAVIGATION
+            </div>
+            <div style={{
+              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8,
+            }}>
+              {MAP_LINKS.map((link) => {
+                const url = link.getUrl(D.location);
+                const web = isWebUrl(url);
+                return (
+                  <a
+                    key={link.label}
+                    href={url}
+                    target={web ? '_blank' : undefined}
+                    rel={web ? 'noopener noreferrer' : undefined}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      padding: '10px 8px',
+                      background: WL.paper,
+                      border: `1px solid ${WL.ocean}55`,
+                      color: WL.ink,
+                      textDecoration: 'none',
+                      fontFamily: FF.sans,
+                      fontSize: 12,
+                      fontWeight: 700,
+                      letterSpacing: 0.2,
+                    }}
+                  >
+                    {link.icon ? (
+                      <img
+                        src={link.icon}
+                        alt=""
+                        style={{
+                          width: 24,
+                          height: 24,
+                          objectFit: 'contain',
+                          display: 'block',
+                        }}
+                      />
+                    ) : (
+                      <span
+                        aria-hidden
+                        style={{
+                          width: 24,
+                          height: 24,
+                          borderRadius: 5,
+                          border: `1px dashed ${WL.ocean}66`,
+                          background: `${WL.ocean}10`,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontFamily: FF.bebas,
+                          fontSize: 8,
+                          color: `${WL.ocean}99`,
+                          letterSpacing: 1,
+                        }}
+                      >
+                        ICN
+                      </span>
+                    )}
+                    <span>{link.label}</span>
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </div>
       </Reveal>

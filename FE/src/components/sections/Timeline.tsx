@@ -47,15 +47,18 @@ export const Timeline = memo(function Timeline() {
     return ctx.subscribe(update);
   }, [ctx]);
 
-  const t = dayProg;
-  const bg = `color-mix(in oklab, ${WL.paper} ${(1 - t) * 100}%, ${WL.ink})`;
-  const fg = `color-mix(in oklab, ${WL.ink} ${(1 - t) * 100}%, ${WL.paper})`;
+  // 0~0.4 구간: paper 유지 / 0.4~0.6: 급격히 전환 / 0.6~1: dusk 유지.
+  // smoothstep으로 boundary를 부드럽게 처리.
+  const k = Math.max(0, Math.min(1, (dayProg - 0.4) / 0.2));
+  const eased = k * k * (3 - 2 * k);
+  const bg = `color-mix(in oklab, ${WL.paper} ${(1 - eased) * 100}%, ${WL.dusk})`;
+  const fg = WL.ink;
 
   return (
     <section ref={sectionRef} data-screen-label="04 Timeline" style={{
       background: bg, color: fg, padding: '50px 24px 0',
       position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100%',
-      transition: 'background 0.15s linear, color 0.15s linear'
+      transition: 'background 0.15s linear'
     }}>
       <Reveal>
         <IssueLabel num={4} label="TIMELINE" accent={fg} />

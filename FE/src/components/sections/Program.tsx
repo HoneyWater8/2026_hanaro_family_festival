@@ -9,6 +9,12 @@ import { IssueLabel } from '../common/IssueLabel';
 import { MorphingWave } from '../common/MorphingWave';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
+// 캐러셀 카드 사이즈 — 무한 루프 wrap 거리 계산에 사용되므로 inline 스타일과 일치해야 함.
+const CARD_WIDTH = 132;
+const CARD_HEIGHT = 132;
+const CARD_GAP = 10;
+const CARD_STRIDE = CARD_WIDTH + CARD_GAP; // 142
+
 type ProgramCardProps = {
   card: ProgramCardData;
   accent: string;
@@ -17,43 +23,105 @@ type ProgramCardProps = {
 };
 
 function ProgramCard({ card, accent, onClick, dimmed }: ProgramCardProps) {
+  const hasImage = Boolean(card.image);
   return (
     <div
       onClick={onClick}
       style={{
         flex: '0 0 auto',
-        width: 132, height: 132,
+        width: CARD_WIDTH, height: CARD_HEIGHT,
         background: WL.paper, color: WL.ink,
         border: `1.5px solid ${accent}`, borderRadius: 4,
-        padding: '12px 14px',
         cursor: 'pointer', position: 'relative', overflow: 'hidden',
-        display: 'flex', flexDirection: 'column',
         boxShadow: `0 2px 8px ${WL.ink}15`,
         opacity: dimmed ? 0.45 : 1,
         transition: 'opacity 0.3s ease',
         userSelect: 'none', WebkitUserSelect: 'none'
       }}
     >
+      {/* 배경 이미지 (있을 때만) */}
+      {hasImage && (
+        <img
+          src={card.image}
+          alt=""
+          style={{
+            position: 'absolute', inset: 0,
+            width: '100%', height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            pointerEvents: 'none',
+          }}
+        />
+      )}
+
+      {/* 텍스트 가독성 위한 scrim — 이미지 위에만 깔림 */}
+      {hasImage && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          background:
+            `linear-gradient(to bottom, ${WL.ink}00 35%, ${WL.ink}aa 100%)`,
+          pointerEvents: 'none',
+        }} />
+      )}
+
+      {/* 우상단 액센트 닷 (이미지 위에선 흰 ring으로 또렷하게) */}
       <div style={{
         position: 'absolute', top: 10, right: 10,
-        width: 8, height: 8, borderRadius: '50%', background: accent
+        width: 8, height: 8, borderRadius: '50%', background: accent,
+        boxShadow: hasImage ? `0 0 0 2px ${WL.paper}99` : 'none',
+        pointerEvents: 'none',
       }} />
-      <div style={{
-        fontFamily: FF.han, fontSize: 17, lineHeight: 1.1,
-        color: WL.ink, letterSpacing: -0.5, paddingRight: 16,
-        pointerEvents: 'none'
-      }}>{card.name}</div>
-      <div style={{
-        marginTop: 4, fontFamily: FF.sans, fontSize: 10,
-        color: WL.ink, opacity: 0.65, fontWeight: 600,
-        pointerEvents: 'none'
-      }}>{card.sub}</div>
-      <div style={{ flex: 1 }} />
-      <div style={{
-        fontFamily: FF.bebas, fontSize: 10, letterSpacing: 1.5,
-        color: accent, borderTop: `1px solid ${WL.ink}1a`,
-        paddingTop: 6, pointerEvents: 'none'
-      }}>{card.time}</div>
+
+      {/* 컨텐츠 — 이미지 있으면 하단으로 모이고, 없으면 기존 상단/하단 분할 유지 */}
+      {hasImage ? (
+        <div style={{
+          position: 'absolute', left: 0, right: 0, bottom: 0,
+          padding: '12px 14px',
+          color: WL.paper,
+          pointerEvents: 'none',
+        }}>
+          <div style={{
+            fontFamily: FF.han, fontSize: 17, lineHeight: 1.1,
+            letterSpacing: -0.5,
+            textShadow: `0 1px 4px ${WL.ink}aa`,
+          }}>{card.name}</div>
+          <div style={{
+            marginTop: 3, fontFamily: FF.sans, fontSize: 10,
+            opacity: 0.92, fontWeight: 600,
+            textShadow: `0 1px 3px ${WL.ink}aa`,
+          }}>{card.sub}</div>
+          <div style={{
+            marginTop: 6,
+            fontFamily: FF.bebas, fontSize: 10, letterSpacing: 1.5,
+            color: WL.paper,
+            borderTop: `1px solid ${WL.paper}55`,
+            paddingTop: 5,
+            textShadow: `0 1px 3px ${WL.ink}99`,
+          }}>{card.time}</div>
+        </div>
+      ) : (
+        <div style={{
+          position: 'absolute', inset: 0,
+          padding: '12px 14px',
+          display: 'flex', flexDirection: 'column',
+          pointerEvents: 'none',
+        }}>
+          <div style={{
+            fontFamily: FF.han, fontSize: 17, lineHeight: 1.1,
+            color: WL.ink, letterSpacing: -0.5, paddingRight: 16,
+          }}>{card.name}</div>
+          <div style={{
+            marginTop: 4, fontFamily: FF.sans, fontSize: 10,
+            color: WL.ink, opacity: 0.65, fontWeight: 600,
+          }}>{card.sub}</div>
+          <div style={{ flex: 1 }} />
+          <div style={{
+            fontFamily: FF.bebas, fontSize: 10, letterSpacing: 1.5,
+            color: accent, borderTop: `1px solid ${WL.ink}1a`,
+            paddingTop: 6,
+          }}>{card.time}</div>
+        </div>
+      )}
     </div>
   );
 }
@@ -101,17 +169,12 @@ function ProgramRow({ row, onCardClick, paused }: ProgramRowProps) {
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
-    const measure = () => {
-      const w = track.scrollWidth;
-      halfWidthRef.current = w / 2;
-      offsetRef.current = wrap(offsetRef.current);
-      track.style.transform = `translate3d(${offsetRef.current}px, 0, 0)`;
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(track);
-    return () => ro.disconnect();
-  }, []);
+    // 한 사이클 너비 = N × 카드 stride. scrollWidth/2를 쓰면 좌우 padding이
+    // 끼어들어 매 사이클마다 (padding - gap/2) px씩 어긋남 → 끊김 발생.
+    halfWidthRef.current = row.cards.length * CARD_STRIDE;
+    offsetRef.current = wrap(offsetRef.current);
+    track.style.transform = `translate3d(${offsetRef.current}px, 0, 0)`;
+  }, [row.cards.length]);
 
   useEffect(() => {
     let rafId: number;
@@ -228,7 +291,7 @@ function ProgramRow({ row, onCardClick, paused }: ProgramRowProps) {
         }}
       >
         <div ref={trackRef} style={{
-          display: 'flex', gap: 10,
+          display: 'flex', gap: CARD_GAP,
           width: 'max-content',
           padding: '6px 24px',
           willChange: 'transform'
@@ -337,7 +400,7 @@ function ProgramModal({ data, onClose }: ProgramModalProps) {
         }}>
           <span style={{
             fontFamily: FF.bebas, fontSize: 10, letterSpacing: 2, color: WL.ink, opacity: 0.55
-          }}>WHEN</span>
+          }}>일정</span>
           <span style={{ flex: 1, fontFamily: FF.sans, fontSize: 13, fontWeight: 700, color: WL.ink }}>
             {card.time}
           </span>
@@ -355,7 +418,6 @@ function ProgramModal({ data, onClose }: ProgramModalProps) {
           color: WL.ink, opacity: 0.5
         }}>
           <span>HANARO 2026</span>
-          <span>TAP OUTSIDE TO CLOSE</span>
         </div>
       </div>
     </div>
@@ -398,8 +460,6 @@ export const Program = memo(function Program() {
             color: WL.ink, opacity: 0.6, fontWeight: 500,
             display: 'flex', alignItems: 'center', gap: 6
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: `${WL.ink}55` }} />
-            카드를 누르면 자세히 볼 수 있어요. 좌우로 드래그할 수 있어요.
           </div>
         </Reveal>
       </div>

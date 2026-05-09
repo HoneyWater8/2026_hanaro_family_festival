@@ -12,6 +12,8 @@ export const WL = {
   ink:      '#0F2A3D',
   paper:    '#F8F6F1',
   paperWarm:'#F1ECE3',
+  /** Timeline 섹션 종착점 — 15:55 폐막식 시간대의 골든아워 브라운(어둡지 않은 따뜻한 톤). */
+  dusk:     '#C9956A',
 };
 
 export const ACCENT_MAP: Record<AccentName, string> = {

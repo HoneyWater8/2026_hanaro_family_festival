@@ -18,6 +18,8 @@ export type ProgramCardData = {
   sub: string;
   time: string;
   desc: string;
+  /** 카드 배경 이미지 경로 (예: '/cards/card_bible_quiz.png'). 비워두면 단색 카드. */
+  image?: string;
 };
 
 export type ProgramRowData = {
@@ -66,7 +68,6 @@ export type ConceptD = {
   };
   location: {
     name: string;
-    nameEn: string;
     address: string;
     detail: string;
     fromChurch: string;
