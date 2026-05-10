@@ -50,7 +50,6 @@ export type FoodSection = {
 
 export type ParkingItem = { label: string; detail: string };
 
-export type GalleryItem = { caption: string; year: string };
 
 export type ConceptD = {
   event: {
@@ -92,7 +91,8 @@ export type ConceptD = {
   foodSnack: FoodSection;
   shuttle: { label: string; detail: string; sub: string };
   parking: ParkingItem[];
-  gallery: GalleryItem[];
+  /** Gallery 섹션 이미지 경로 (예: '/gallery/cooking.png'). 6개 슬롯에 랜덤 크로스페이드. */
+  gallery: string[];
   contact: { phone: string; email: string; kakao: string };
 };
 
