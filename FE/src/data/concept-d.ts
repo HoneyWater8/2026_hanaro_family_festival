@@ -148,8 +148,8 @@ export const D: ConceptD = {
     time: "13:00",
     note: "초원별 식사",
     items: [
-      { name: "도시락",   desc: "정성껏 준비한 한 끼" },
-      { name: "밥버거",  desc: "든든한 한 입" }
+      { name: "도시락",  desc: "정성껏 준비한 한 끼", image: '/foods/lunch.png' },
+      { name: "밥버거",  desc: "든든한 한 입",         image: '/foods/rice_burger.png' }
     ]
   },
   foodSnack: {
@@ -158,11 +158,12 @@ export const D: ConceptD = {
     time: "수시 운영",
     note: "현장에서 조리",
     items: [
-      { name: "떡볶이",     desc: "매콤달콤" },
-      { name: "순대",       desc: "쫄깃한 한 점" },
-      { name: "팝콘",       desc: "고소한 간식" },
-      { name: "수박",       desc: "여름 제철 과일" },
-      { name: "파인애플",   desc: "상큼한 한 조각" }
+      { name: "떡볶이",     desc: "매콤달콤",         image: '/foods/tteokbokki.jpg.png' },
+      { name: "순대",       desc: "쫄깃한 한 점",     image: '/foods/sundae.jpg.png' },
+      { name: "어묵",       desc: "따뜻한 국물",      image: '/foods/fish_cake.png' },
+      { name: "츄러스",     desc: "달콤한 페이스트리", image: '/foods/churros.png' },
+      { name: "팝콘",       desc: "고소한 간식",      image: '/foods/popcorn.jpg' },
+      { name: "수박·파인애플", desc: "상큼한 여름 과일", image: '/foods/watermelon_pineapple.jpg' }
     ]
   },
 

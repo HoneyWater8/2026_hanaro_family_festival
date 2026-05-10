@@ -33,7 +33,12 @@ export type ProgramRowData = {
   cards: ProgramCardData[];
 };
 
-export type FoodItem = { name: string; desc: string };
+export type FoodItem = {
+  name: string;
+  desc: string;
+  /** 음식 사진 경로 (예: '/foods/popcorn.jpg'). 비워두면 placeholder. */
+  image?: string;
+};
 
 export type FoodSection = {
   label: string;

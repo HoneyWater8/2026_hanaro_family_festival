@@ -52,6 +52,7 @@ function FoodBlock({ d, accent, blue = false }: FoodBlockProps) {
             border: `1px dashed ${blue ? `${WL.paper}40` : `${accent}88`}`
           }}>
             <Image
+              src={it.image}
               alt={it.name}
               label="IMAGE"
               aspectRatio="4 / 3"
