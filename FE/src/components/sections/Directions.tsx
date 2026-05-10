@@ -5,6 +5,44 @@ import { Reveal } from '../common/Reveal';
 import { HanHead } from '../common/HanHead';
 import { IssueLabel } from '../common/IssueLabel';
 import { MorphingWave } from '../common/MorphingWave';
+import { KakaoMap } from '../common/KakaoMap';
+
+// Kakao SDK 로드 전 / 키 미설정 상태에서 보여줄 placeholder.
+function MapPlaceholder({ name }: { name: string }) {
+  return (
+    <>
+      <svg viewBox="0 0 300 188" preserveAspectRatio="none" style={{
+        position: 'absolute', inset: 0, width: '100%', height: '100%'
+      }}>
+        <defs>
+          <pattern id="wl-mapgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke={WL.ink} strokeWidth="0.5" strokeOpacity="0.12"/>
+          </pattern>
+        </defs>
+        <rect width="300" height="188" fill="url(#wl-mapgrid)"/>
+      </svg>
+      <div style={{
+        position: 'absolute', inset: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        textAlign: 'center', padding: '0 16px',
+      }}>
+        <div>
+          <div style={{
+            fontFamily: FF.bebas, fontSize: 11, letterSpacing: 3,
+            color: WL.ocean, marginBottom: 6
+          }}>MAP AREA</div>
+          <div style={{ fontFamily: FF.han, fontSize: 18, color: WL.ink, letterSpacing: -0.5 }}>
+            지도 영역
+          </div>
+          <div style={{
+            marginTop: 4, fontFamily: FF.sans, fontSize: 11,
+            color: WL.ink, opacity: 0.55
+          }}>{name}</div>
+        </div>
+      </div>
+    </>
+  );
+}
 
 export const Directions = memo(function Directions() {
   return (
@@ -24,43 +62,20 @@ export const Directions = memo(function Directions() {
       </Reveal>
 
       <Reveal delay={0.2}>
-        <div
-          id="map-placeholder"
-          data-role="map-mount"
+        <KakaoMap
+          address={D.location.address}
+          name={D.location.name}
+          coords={D.location.coords}
+          level={3}
+          fallback={<MapPlaceholder name={D.location.name} />}
           style={{
-            marginTop: 22, position: 'relative',
+            marginTop: 22,
             width: '100%', aspectRatio: '16 / 10',
             background: WL.paper,
             border: `1.5px dashed ${WL.aqua}`,
             overflow: 'hidden',
-            display: 'flex', alignItems: 'center', justifyContent: 'center'
-          }}>
-          <svg viewBox="0 0 300 188" preserveAspectRatio="none" style={{
-            position: 'absolute', inset: 0, width: '100%', height: '100%'
-          }}>
-            <defs>
-              <pattern id="wl-mapgrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke={WL.ink} strokeWidth="0.5" strokeOpacity="0.12"/>
-              </pattern>
-            </defs>
-            <rect width="300" height="188" fill="url(#wl-mapgrid)"/>
-          </svg>
-          <div style={{
-            position: 'relative', textAlign: 'center', padding: '0 16px'
-          }}>
-            <div style={{
-              fontFamily: FF.bebas, fontSize: 11, letterSpacing: 3,
-              color: WL.ocean, marginBottom: 6
-            }}>MAP AREA</div>
-            <div style={{ fontFamily: FF.han, fontSize: 18, color: WL.ink, letterSpacing: -0.5 }}>
-              지도 영역
-            </div>
-            <div style={{
-              marginTop: 4, fontFamily: FF.sans, fontSize: 11,
-              color: WL.ink, opacity: 0.55
-            }}>{D.location.name}</div>
-          </div>
-        </div>
+          }}
+        />
       </Reveal>
 
       <Reveal delay={0.32}>
