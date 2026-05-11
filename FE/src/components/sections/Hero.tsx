@@ -20,7 +20,8 @@ export const Hero = memo(function Hero() {
       <div style={{ marginTop: 36 }}>
         <Reveal delay={0.05}>
           <div style={{
-            fontFamily: FF.bebas, fontSize: 13, letterSpacing: 3, color: WL.ocean
+            fontFamily: FF.bebas, fontSize: 13, letterSpacing: 3, color: WL.ocean,
+            marginBottom: 14,
           }}>2026 · AMEN 17</div>
         </Reveal>
         <Reveal delay={0.15}>

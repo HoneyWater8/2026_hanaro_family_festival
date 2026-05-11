@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { D } from '../../data/concept-d';
 import { WL, FF } from '../../theme/tokens';
@@ -11,48 +11,60 @@ type SlotState = { layers: [string, string]; active: 0 | 1 };
 
 type GalleryPhotoProps = {
   images: string[];
+  /** 부모가 컨트롤하는 현재 이미지 인덱스 — 변경 시 크로스페이드 트리거. */
+  imageIndex: number;
+  /** 슬롯 인덱스 — requestNext 호출 시 어느 슬롯인지 전달용. */
+  slotIndex: number;
+  /** 다음 이미지 요청 (부모가 다른 슬롯 상태 보고 고름). */
+  requestNext: (slotIdx: number) => void;
   aspectRatio: string;
   /** 첫 회전 시작 전 지연 (ms) — 슬롯 간 stagger 용 */
   delay: number;
   /** 회전 간격 (ms) */
   intervalMs?: number;
-  /** 슬롯 인덱스 (data 속성용) */
-  index: number;
 };
 
-/** 한 슬롯 — 21개 이미지 풀에서 랜덤으로 크로스페이드 회전. */
-function GalleryPhoto({ images, aspectRatio, delay, intervalMs = 5500, index }: GalleryPhotoProps) {
+/** 한 슬롯 — 부모 controlled imageIndex를 받아 크로스페이드. */
+function GalleryPhoto({
+  images,
+  imageIndex,
+  slotIndex,
+  requestNext,
+  aspectRatio,
+  delay,
+  intervalMs = 5500,
+}: GalleryPhotoProps) {
   const [state, setState] = useState<SlotState>(() => {
-    const start = images.length > 0 ? Math.floor(Math.random() * images.length) : 0;
-    const src = images[start] ?? '';
+    const src = images[imageIndex] ?? '';
     return { layers: [src, src], active: 0 };
   });
 
+  // imageIndex가 바뀔 때 크로스페이드 트리거 (비활성 layer에 새 이미지 넣고 active 플립).
   useEffect(() => {
-    if (images.length < 2) return;
+    const newSrc = images[imageIndex];
+    if (!newSrc) return;
+    setState((prev) => {
+      if (newSrc === prev.layers[prev.active]) return prev;
+      const inactiveIdx: 0 | 1 = prev.active === 0 ? 1 : 0;
+      const newLayers: [string, string] = [prev.layers[0], prev.layers[1]];
+      newLayers[inactiveIdx] = newSrc;
+      return { layers: newLayers, active: inactiveIdx };
+    });
+  }, [imageIndex, images]);
+
+  // 타이머: stagger 후 일정 간격으로 부모에 다음 이미지 요청.
+  useEffect(() => {
     let intervalId: ReturnType<typeof setInterval> | undefined;
     const startTimer = setTimeout(() => {
       intervalId = setInterval(() => {
-        setState((prev) => {
-          const inactiveIdx: 0 | 1 = prev.active === 0 ? 1 : 0;
-          const currentSrc = prev.layers[prev.active];
-          const currentImgIdx = images.indexOf(currentSrc);
-          // 현재 이미지와 다른 랜덤 인덱스 선택
-          let nextImgIdx = Math.floor(Math.random() * images.length);
-          while (nextImgIdx === currentImgIdx) {
-            nextImgIdx = Math.floor(Math.random() * images.length);
-          }
-          const newLayers: [string, string] = [prev.layers[0], prev.layers[1]];
-          newLayers[inactiveIdx] = images[nextImgIdx];
-          return { layers: newLayers, active: inactiveIdx };
-        });
+        requestNext(slotIndex);
       }, intervalMs);
     }, delay);
     return () => {
       clearTimeout(startTimer);
       if (intervalId !== undefined) clearInterval(intervalId);
     };
-  }, [delay, intervalMs, images]);
+  }, [delay, intervalMs, slotIndex, requestNext]);
 
   const cornerColor = `${WL.ink}66`;
   const layerStyle: CSSProperties = {
@@ -67,7 +79,7 @@ function GalleryPhoto({ images, aspectRatio, delay, intervalMs = 5500, index }: 
   return (
     <div
       data-role="gallery-photo"
-      data-gallery-index={index}
+      data-gallery-index={slotIndex}
       style={{
         position: 'relative', overflow: 'hidden',
         aspectRatio,
@@ -106,7 +118,60 @@ const YOUTUBE_LABEL = '지난 하나로 가족 한마당 현장 스케치 보러
 // public/icons/ 에 파일 추가 후 경로 입력 (예: '/icons/youtube.svg'). 비워두면 placeholder.
 const YOUTUBE_ICON = '/icons/youtube.svg';
 
+/** total 중 count개를 중복 없이 랜덤 뽑기. count > total이면 나머지는 중복 허용. */
+function pickUniqueRandom(total: number, count: number): number[] {
+  const result: number[] = [];
+  const picked = new Set<number>();
+  const target = Math.min(count, total);
+  while (result.length < target) {
+    const i = Math.floor(Math.random() * total);
+    if (!picked.has(i)) {
+      picked.add(i);
+      result.push(i);
+    }
+  }
+  while (result.length < count) {
+    result.push(Math.floor(Math.random() * total));
+  }
+  return result;
+}
+
 export const Gallery = memo(function Gallery() {
+  // 모든 슬롯이 현재 보여주는 이미지 인덱스. 초기값은 6개 모두 다른 랜덤.
+  const [slotImages, setSlotImages] = useState<number[]>(() =>
+    pickUniqueRandom(D.gallery.length, SLOT_CONFIGS.length)
+  );
+
+  /**
+   * 슬롯이 다음 이미지를 요청.
+   * 현재 6개 슬롯에서 사용 중이 아닌 인덱스만 후보로 → 동시 중복 표시 방지.
+   * (자기 자신의 현재 이미지도 후보에서 제외돼서 직전과 같은 이미지가 다시 뽑히지 않음.)
+   */
+  const requestNext = useCallback((slotIdx: number) => {
+    setSlotImages((prev) => {
+      const taken = new Set(prev);
+      const available: number[] = [];
+      for (let i = 0; i < D.gallery.length; i++) {
+        if (!taken.has(i)) available.push(i);
+      }
+      let next: number;
+      if (available.length > 0) {
+        next = available[Math.floor(Math.random() * available.length)];
+      } else {
+        // 폴백: 풀 크기 ≤ 슬롯 수인 경우. 자기 자신만 제외하고 아무거나.
+        const others: number[] = [];
+        for (let i = 0; i < D.gallery.length; i++) {
+          if (i !== prev[slotIdx]) others.push(i);
+        }
+        if (others.length === 0) return prev;
+        next = others[Math.floor(Math.random() * others.length)];
+      }
+      const newSlots = [...prev];
+      newSlots[slotIdx] = next;
+      return newSlots;
+    });
+  }, []);
+
   return (
     <section data-screen-label="08 Gallery" style={{
       background: WL.paperWarm, padding: '50px 24px 0',
@@ -140,7 +205,9 @@ export const Gallery = memo(function Gallery() {
           <Reveal key={i} delay={0.22 + i * 0.05} y={20}>
             <GalleryPhoto
               images={D.gallery}
-              index={i}
+              imageIndex={slotImages[i]}
+              slotIndex={i}
+              requestNext={requestNext}
               aspectRatio={cfg.isLarge ? '1 / 1.2' : '1 / 1'}
               delay={cfg.delay}
               intervalMs={5500}

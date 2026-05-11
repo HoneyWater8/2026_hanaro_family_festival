@@ -21,27 +21,15 @@ function parseCoords(coords?: string): { lat: number; lng: number } | null {
 }
 
 /**
- * 카카오맵 — 위치 보기.
- * universal 웹 URL: 모바일에선 카카오맵 앱이 설치돼 있으면 자동 실행, 아니면 웹뷰.
+ * 카카오맵 — 길찾기 모드로 진입.
+ * universal 웹 URL: 모바일에선 카카오맵 앱이 자동으로 길찾기 모드로 열림.
  */
 export function kakaoMapUrl(loc: LocationInfo): string {
   const c = parseCoords(loc.coords);
   if (c) {
-    return `https://map.kakao.com/link/map/${encodeURIComponent(loc.name)},${c.lat},${c.lng}`;
+    return `https://map.kakao.com/link/to/${encodeURIComponent(loc.name)},${c.lat},${c.lng}`;
   }
   return `https://map.kakao.com/link/search/${encodeURIComponent(loc.name)}`;
-}
-
-/**
- * 카카오내비 — 길찾기.
- * 모바일 앱 deep link. 앱 미설치/데스크톱이면 카카오맵 길찾기 페이지로 폴백.
- */
-export function kakaoNaviUrl(loc: LocationInfo): string {
-  const c = parseCoords(loc.coords);
-  if (c) {
-    return `kakaonavi://navigate?name=${encodeURIComponent(loc.name)}&x=${c.lng}&y=${c.lat}&coord_type=wgs84`;
-  }
-  return `https://map.kakao.com/?eName=${encodeURIComponent(loc.name)}`;
 }
 
 /**

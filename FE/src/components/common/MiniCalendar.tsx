@@ -1,6 +1,7 @@
 import { WL, FF } from '../../theme/tokens';
 
-const KOR_DAY_LABELS = ['일', '월', '화', '수', '목', '금', '토'] as const;
+// 교회 컨텍스트 — 일요일은 "주일"의 약자 "주"로 표기.
+const KOR_DAY_LABELS = ['주', '월', '화', '수', '목', '금', '토'] as const;
 const EN_MONTHS = [
   'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
   'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',

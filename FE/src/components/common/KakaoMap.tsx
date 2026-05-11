@@ -35,6 +35,38 @@ export function KakaoMap({
   const containerRef = useRef<HTMLDivElement>(null);
   const [mapReady, setMapReady] = useState(false);
 
+  // [DEV ONLY] coords 정확성 검증용 — 항상 Places/Geocoder 한 번 돌려서 콘솔에 정답 출력.
+  useEffect(() => {
+    if (!sdkLoaded || !import.meta.env.DEV) return;
+    const kakao = window.kakao;
+    const places = new kakao.maps.services.Places();
+    places.keywordSearch(name, (result: any[], status: string) => {
+      if (status === kakao.maps.services.Status.OK && result.length > 0) {
+        const lat = parseFloat(result[0].y);
+        const lng = parseFloat(result[0].x);
+        // eslint-disable-next-line no-console
+        console.log(
+          `%c[KakaoMap]%c Place "${name}" → coords: "${lat},${lng}"\n` +
+          `%c→ concept-d.ts location.coords 에 위 값을 넣으면 정확한 위치 사용`,
+          'color:#FFC93C;font-weight:bold;', '', 'color:#999;'
+        );
+      } else {
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(address, (gResult: any[], gStatus: string) => {
+          if (gStatus === kakao.maps.services.Status.OK && gResult.length > 0) {
+            const lat = parseFloat(gResult[0].y);
+            const lng = parseFloat(gResult[0].x);
+            // eslint-disable-next-line no-console
+            console.log(
+              `%c[KakaoMap]%c Address "${address}" → coords: "${lat},${lng}"`,
+              'color:#FFC93C;font-weight:bold;', ''
+            );
+          }
+        });
+      }
+    });
+  }, [sdkLoaded, name, address]);
+
   useEffect(() => {
     if (!sdkLoaded || !containerRef.current) return;
     const kakao = window.kakao;

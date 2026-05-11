@@ -32,9 +32,9 @@ export const D: ConceptD = {
     detail: "축구장 33,785㎡ (약 1,020평)",
     fromChurch: "교회에서 약 10km",
     parking: "운동장 주차 50대 + 주변 갓길 가능",
-    // 카카오맵에서 장소 검색 → 우클릭 "여기로 좌표 찍기" → "lat,lng" 형식으로 입력.
-    // 비워두면 이름 기반 검색 URL로 자동 폴백 (정확도 ↓, 편의성은 동일).
-    coords: ""
+    // Kakao Places 검색으로 확인한 "김포골드밸리 중앙체육공원" 정확 좌표.
+    // (변경하려면 dev 콘솔의 [KakaoMap] 로그에서 새 좌표 복사)
+    coords: "37.6057462830306,126.602483679804"
   },
 
   invite: {
@@ -63,19 +63,19 @@ export const D: ConceptD = {
     { group: "오프닝", time: "10:15",  title: "개회선언",  desc: "담임목사님 개회 선언 및 기도" },
     { group: "오프닝", time: "10:20",  title: "준비 체조", desc: "벨런스워킹 PT 체조 몸 풀기 (윤다이 청년)" },
 
-    { group: "오전",   time: "10:40",  title: "성경 퀴즈",       desc: "난이도 하" },
-    { group: "오전",   time: "11:00",  title: "물컵 들고 달리기", desc: "종이컵 사용 (전교인) · 5세부터 초6 별도 운영(11~15시)" },
-    { group: "오전",   time: "11:30",  title: "신발 던지기",     desc: "남자·여자 구별해서 경기" },
-    { group: "오전",   time: "12:00",  title: "제기 차기",       desc: "모든 성도" },
-    { group: "오전",   time: "12:30",  title: "보물찾기",        desc: "전교인 대상 · 푸짐한 경품" },
+    { group: "오전",   time: "10:40",  title: "성경 퀴즈",       desc: "전 교인 대상" },
+    { group: "오전",   time: "11:00",  title: "물컵 들고 달리기", desc: "전 교인 대상 · 유아부 별도 운영(11~15시)" },
+    { group: "오전",   time: "11:30",  title: "신발 던지기",     desc: "전 교인 대상 · 남자·여자 구별해서 경기" },
+    { group: "오전",   time: "12:00",  title: "제기 차기",       desc: "전 교인 대상" },
+    { group: "오전",   time: "12:30",  title: "보물찾기",        desc: "전 교인 대상 · 푸짐한 경품" },
 
     { group: "오후",   time: "13:00",  title: "점심시간",        desc: "초원별 식사" },
-    { group: "오후",   time: "14:00",  title: "모셔오기 게임",    desc: "교회학교 학생 (초·중·고등) · 사회: 임현택 집사" },
-    { group: "오후",   time: "14:30",  title: "큰 공 굴리기",    desc: "모든 성도 (청 · 백전) · 남·자장년·청년 풋살 5:5" },
+    { group: "오후",   time: "14:00",  title: "모셔오기 게임",    desc: "교회학교 학생 대상 (초·중·고등) · 사회: 임현택 집사" },
+    { group: "오후",   time: "14:30",  title: "큰 공 굴리기",    desc: "전 교인 대상 (청 · 백전) · 남자장년·청년 풋살 5:5" },
     { group: "오후",   time: "15:00",  title: "족구 결승",       desc: "목사님팀 vs 교구팀" },
 
     { group: "폐막",   time: "15:35",  title: "축복상 추첨",     desc: "기존가족·새가족·교회학교 게임 참여자" },
-    { group: "폐막",   time: "15:55",  title: "폐회선언",        desc: "담임목사님 폐막 선언 및 기도" }
+    { group: "폐막",   time: "15:55",  title: "폐회 선언",        desc: "담임목사님 폐막 선언 및 기도" }
   ],
 
   // 05 PROGRAM — 연령별 캐러셀 (3행: 전연령 / 초등부 / 유아부)
@@ -89,11 +89,11 @@ export const D: ConceptD = {
       direction: "left",
       duration: 60,
       cards: [
-        { name: "인생네컷",   sub: "현장 즉석 사진",         time: "수시 운영",     desc: "가족, 친구와 함께 추억의 한 컷을 남겨보세요. 현장에서 바로 인화해 드립니다." },
+        { name: "인생네컷",   sub: "현장 즉석 사진",         time: "수시 운영",     desc: "가족, 친구와 함께 추억의 한 컷을 남겨보세요. 현장에서 바로 인화해 드립니다.", image: '/cards/card_four_picture.jpg' },
         { name: "캘리그라피", sub: "이름·말씀 손글씨",       time: "수시 운영", desc: "정성스러운 손글씨로 이름이나 좋아하는 말씀을 받아가세요. 사전 신청 우선입니다.", image: '/cards/card_calligraphy.png' },
-        { name: "바자회",     sub: "수익금 전액 선교헌금",   time: "11:00 ~ 16:00", desc: "교우 여러분이 기증해 주신 좋은 물건을 합리적인 가격에 만나볼 수 있는 자리. 수익금 전액은 선교헌금으로 사용됩니다." },
-        { name: "성경 퀴즈",  sub: "난이도 하",              time: "10:40",         desc: "남녀노소 누구나 즐길 수 있는 성경 상식 문제. 정답자에게는 작은 선물이 기다립니다.", image: '/cards/card_bible_quiz.png' },
-        { name: "보물찾기",   sub: "푸짐한 경품",            time: "12:30",         desc: "운동장 곳곳에 숨겨진 보물쪽지를 찾아보세요. 모든 성도가 함께 즐기는 시간입니다." },
+        { name: "바자회",     sub: "수익금 전액 선교헌금",   time: "11:00 ~ 16:00", desc: "교우 여러분이 기증해 주신 좋은 물건을 합리적인 가격에 만나볼 수 있는 자리. 수익금 전액은 선교헌금으로 사용됩니다.", image: '/cards/card_bazaar.jpg'},
+        { name: "성경 퀴즈",  sub: "전 교인 대상",              time: "10:40",         desc: "남녀노소 누구나 즐길 수 있는 성경 상식 문제. 정답자에게는 작은 선물이 기다립니다.", image: '/cards/card_bible_quiz.png' },
+        { name: "보물찾기",   sub: "푸짐한 경품",            time: "12:30",         desc: "운동장 곳곳에 숨겨진 보물쪽지를 찾아보세요. 모든 성도가 함께 즐기는 시간입니다.", image: '/cards/card_treasure_hunt.avif'},
         { name: "축복상 추첨", sub: "참여자 모두 대상",       time: "15:35",         desc: "오늘 하루를 마무리하며 모두가 기대하는 축복상 추첨. 기존가족·새가족·교회학교 게임 참여자를 대상으로 진행됩니다.", image: 'cards/card_blessing_award.png' }
       ]
     },
@@ -181,26 +181,6 @@ export const D: ConceptD = {
 
   // 08 GALLERY — 6개 슬롯이 21개 이미지 풀에서 랜덤 크로스페이드.
   gallery: [
-    '/gallery/39196_1717806085_2.jpg',
-    '/gallery/39196_1717806086_6.jpg',
-    '/gallery/39196_1717806086_8.jpg',
-    '/gallery/39196_1717806087_19.jpg',
-    '/gallery/39196_1717806088_25.jpg',
-    '/gallery/39196_1717806088_30.jpg',
-    '/gallery/39196_1717806089_32.jpg',
-    '/gallery/39196_1717806089_37.jpg',
-    '/gallery/39196_1717806090_41.jpg',
-    '/gallery/39196_1717806090_46.jpg',
-    '/gallery/39197_1717806176_11.jpg',
-    '/gallery/39197_1717806176_12.jpg',
-    '/gallery/39197_1717806177_15.jpg',
-    '/gallery/39198_1717806443_17.jpg',
-    '/gallery/39198_1717806447_49.jpg',
-    '/gallery/39199_1717806646_9.jpg',
-    '/gallery/39199_1717806646_13.jpg',
-    '/gallery/39199_1717806647_15.jpg',
-    '/gallery/39199_1717806648_22.jpg',
-    '/gallery/cheer_up.png',
     '/gallery/cooking.png',
     '/gallery/dynamic.png',
     '/gallery/foot_volleyball_1.jpg',

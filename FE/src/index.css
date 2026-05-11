@@ -77,3 +77,30 @@ body.no-frame .frame-toggle-label { color: rgba(15,42,61,0.55); }
   0%   { opacity: 0; }
   100% { opacity: 1; }
 }
+
+/* RSVP CheerBoard — 응원 이모지 뱃지 떠오르는 애니메이션.
+   sway1~4 CSS 변수로 매 float마다 다른 경로 (JS에서 랜덤 주입). */
+@keyframes wl-cheer-float {
+  0%   { transform: translate(0, 0) scale(0.4); opacity: 0; }
+  12%  { transform: translate(0, -25px) scale(1.15); opacity: 1; }
+  35%  { transform: translate(var(--sway1, -15px), -95px) scale(1); opacity: 1; }
+  58%  { transform: translate(var(--sway2, 12px), -160px) scale(1); opacity: 1; }
+  78%  { transform: translate(var(--sway3, -8px), -220px) scale(0.95); opacity: 0.7; }
+  100% { transform: translate(var(--sway4, 0px), -280px) scale(0.85); opacity: 0; }
+}
+
+/* CheerBoard polling delta — "+1" / "-2" 작은 텍스트 페이드업 */
+@keyframes wl-cheer-delta {
+  0%   { transform: translate(-50%, 0) scale(0.7); opacity: 0; }
+  20%  { transform: translate(-50%, -10px) scale(1.05); opacity: 1; }
+  100% { transform: translate(-50%, -60px) scale(1); opacity: 0; }
+}
+
+/* CheerBoard 마일스톤 토스트 — 등장 → 잠시 hold → 위로 떠오르며 페이드아웃 (stacking) */
+@keyframes wl-cheer-milestone-toast {
+  0%   { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
+  10%  { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+  18%  { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
+  30%  { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
+  100% { transform: translate(-50%, -300%) scale(0.9); opacity: 0; }
+}

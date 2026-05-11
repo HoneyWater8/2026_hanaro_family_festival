@@ -9,7 +9,6 @@ import { MiniCalendar } from '../common/MiniCalendar';
 import { CopyButton } from '../common/CopyButton';
 import {
   kakaoMapUrl,
-  kakaoNaviUrl,
   naverMapUrl,
   tmapUrl,
   isWebUrl,
@@ -28,13 +27,12 @@ const [SCHEDULE_YEAR, SCHEDULE_MONTH, SCHEDULE_DAY] =
  */
 const MAP_LINKS: Array<{
   label: string;
-  getUrl: (loc: LocationInfo) => string;
   icon?: string;
+  getUrl: (loc: LocationInfo) => string;
 }> = [
   { label: '카카오맵',   getUrl: kakaoMapUrl, icon: '/icons/kakaomap.svg' },
-  { label: '카카오내비', getUrl: kakaoNaviUrl, icon: '/icons/kakaonavi.svg' },
   { label: '네이버지도', getUrl: naverMapUrl, icon: '/icons/navermap.png' },
-  { label: 'T맵',         getUrl: tmapUrl, icon: '/icons/tmap.svg' },
+  { label: 'T맵',         getUrl: tmapUrl,     icon: '/icons/tmap.svg' },
 ];
 
 export const WhenWhere = memo(function WhenWhere() {
@@ -115,7 +113,7 @@ export const WhenWhere = memo(function WhenWhere() {
             marginTop: 12, paddingTop: 10, borderTop: `1px solid ${WL.ink}22`,
             fontFamily: FF.sans, fontSize: 11, color: WL.ink, fontWeight: 700
           }}>
-            {D.location.fromChurch} · 셔틀버스 운행
+            {D.location.fromChurch} · 셔틀버스 운행 (09시 부터 10분 간격)
           </div>
 
           {/* 외부 지도/내비 앱 바로가기 */}
@@ -130,7 +128,7 @@ export const WhenWhere = memo(function WhenWhere() {
               NAVIGATION
             </div>
             <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8,
+              display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8,
             }}>
               {MAP_LINKS.map((link) => {
                 const url = link.getUrl(D.location);
@@ -143,10 +141,11 @@ export const WhenWhere = memo(function WhenWhere() {
                     rel={web ? 'noopener noreferrer' : undefined}
                     style={{
                       display: 'flex',
+                      flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: 8,
-                      padding: '10px 8px',
+                      gap: 6,
+                      padding: '12px 6px',
                       background: WL.paper,
                       border: `1px solid ${WL.ocean}55`,
                       color: WL.ink,
@@ -162,8 +161,8 @@ export const WhenWhere = memo(function WhenWhere() {
                         src={link.icon}
                         alt=""
                         style={{
-                          width: 24,
-                          height: 24,
+                          width: 28,
+                          height: 28,
                           objectFit: 'contain',
                           display: 'block',
                         }}
@@ -172,8 +171,8 @@ export const WhenWhere = memo(function WhenWhere() {
                       <span
                         aria-hidden
                         style={{
-                          width: 24,
-                          height: 24,
+                          width: 28,
+                          height: 28,
                           borderRadius: 5,
                           border: `1px dashed ${WL.ocean}66`,
                           background: `${WL.ocean}10`,
