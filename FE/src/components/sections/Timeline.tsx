@@ -109,7 +109,7 @@ export const Timeline = memo(function Timeline() {
                       }}>{tt.title}</div>
                       <div style={{
                         fontFamily: FF.sans, fontSize: 10.5, color: fg, opacity: 0.7,
-                        marginTop: 2, lineHeight: 1.5
+                        marginTop: 2, lineHeight: 1.5, whiteSpace: 'pre-line'
                       }}>{tt.desc}</div>
                     </div>
                   </div>
@@ -122,7 +122,7 @@ export const Timeline = memo(function Timeline() {
 
       <div style={{ height: 50 }} />
       <div style={{ margin: '0 -24px', marginTop: 'auto' }}>
-        <MorphingWave color1={WL.paperWarm} color2={WL.lime} height={90} />
+        <MorphingWave color1={WL.ocean} color2={WL.sun} height={90} />
       </div>
     </section>
   );

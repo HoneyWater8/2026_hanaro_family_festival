@@ -9,7 +9,7 @@ import { CheerBoard } from '../common/CheerBoard';
 export const RSVP = memo(function RSVP() {
   return (
     <section data-screen-label="09 RSVP" style={{
-      background: WL.sun, color: WL.ink, padding: '50px 24px 60px',
+      background: WL.sun, color: WL.ink, padding: '50px 24px 40px',
       position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100%'
     }}>
       <Reveal>
@@ -41,18 +41,17 @@ export const RSVP = memo(function RSVP() {
 
       <div style={{
         marginTop: 28, paddingTop: 14, borderTop: `1px solid ${WL.ink}33`,
-        display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8,
-        fontFamily: FF.mono, fontSize: 10, color: WL.ink, opacity: 0.65
-      }}>
-        <div>TEL · {D.contact.phone}</div>
-        <div style={{ textAlign: 'right' }}>KAKAO · {D.contact.kakao}</div>
-      </div>
-
-      <div style={{
-        marginTop: 14, fontFamily: FF.bebas, fontSize: 9, letterSpacing: 3,
+        fontFamily: FF.bebas, fontSize: 9, letterSpacing: 3,
         color: WL.ink, opacity: 0.4, textAlign: 'center'
       }}>
-        © HANARO FAMILY DAY · {D.event.year} · AMEN 17
+        © HANARO FAMILY FESTIVAL · {D.event.year} · AMEN 17
+      </div>
+      <div style={{
+        marginTop: 6,
+        fontFamily: FF.bebas, fontSize: 9, letterSpacing: 3,
+        color: WL.ink, opacity: 0.4, textAlign: 'center'
+      }}>
+        DESIGNED &amp; DEVELOPED BY HONEYWATER
       </div>
     </section>
   );

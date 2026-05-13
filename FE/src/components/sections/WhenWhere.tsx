@@ -113,7 +113,7 @@ export const WhenWhere = memo(function WhenWhere() {
             marginTop: 12, paddingTop: 10, borderTop: `1px solid ${WL.ink}22`,
             fontFamily: FF.sans, fontSize: 11, color: WL.ink, fontWeight: 700
           }}>
-            {D.location.fromChurch} · 셔틀버스 운행 (09시 부터 10분 간격)
+            {D.location.fromChurch} · 셔틀버스 운행 (09시 부터 10분 간격 3대)
           </div>
 
           {/* 외부 지도/내비 앱 바로가기 */}

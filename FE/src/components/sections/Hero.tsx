@@ -1,11 +1,35 @@
-import { memo } from 'react';
+import { memo, useContext, useEffect, useRef, useState } from 'react';
 import { D } from '../../data/concept-d';
 import { WL, FF } from '../../theme/tokens';
 import { Reveal } from '../common/Reveal';
 import { HanHead } from '../common/HanHead';
 import { MorphingWave } from '../common/MorphingWave';
+import { ScrollContext } from '../../hooks/useScrollTracker';
 
 export const Hero = memo(function Hero() {
+  // 스크롤 힌트 — Hero의 마지막 Reveal 애니메이션(delay 0.7 + transform 0.9) 종료 후 등장.
+  // 사용자가 한 번이라도 살짝 스크롤하면 페이드아웃 (이후 다시 보이지 않음).
+  const scrollCtx = useContext(ScrollContext);
+  const [hintVisible, setHintVisible] = useState(false);
+  const hintHiddenRef = useRef(false);
+
+  useEffect(() => {
+    const showTimer = setTimeout(() => {
+      if (!hintHiddenRef.current) setHintVisible(true);
+    }, 1700);
+    return () => clearTimeout(showTimer);
+  }, []);
+
+  useEffect(() => {
+    if (!scrollCtx) return;
+    return scrollCtx.subscribe(() => {
+      if (!hintHiddenRef.current && scrollCtx.scrollPxRef.current > 60) {
+        hintHiddenRef.current = true;
+        setHintVisible(false);
+      }
+    });
+  }, [scrollCtx]);
+
   return (
     <section data-screen-label="01 Hero" style={{
       background: WL.paper, position: 'relative', minHeight: '100%',
@@ -76,6 +100,62 @@ export const Hero = memo(function Hero() {
 
       <div style={{ margin: '0 -24px', marginTop: 'auto' }}>
         <MorphingWave color1={WL.ocean} color2={WL.aqua} height={100} />
+      </div>
+
+      {/* 스크롤 힌트 — "SWIPE UP" + 손가락 터치 원이 궤적을 따라 위로 이동.
+          가로 9:1 위치 + 세로 중앙. Hero의 ink 색상 사용. 스크롤 시작하면 페이드아웃 */}
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '90%',
+        transform: 'translate(-50%, -50%)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 6,
+        color: WL.ink,
+        fontFamily: FF.sans,
+        fontSize: 11,
+        letterSpacing: 0.5,
+        fontWeight: 700,
+        opacity: hintVisible ? 0.9 : 0,
+        transition: 'opacity 0.5s ease',
+        pointerEvents: 'none',
+        zIndex: 3,
+        whiteSpace: 'nowrap',
+      }}>
+        <span>아래로 드래그</span>
+        <div style={{ position: 'relative', width: 36, height: 44 }}>
+          <div style={{
+            position: 'absolute',
+            left: '50%',
+            top: 2,
+            width: 2,
+            height: 30,
+            background: `linear-gradient(to bottom, transparent, ${WL.ink})`,
+            transform: 'translateX(-50%)',
+            opacity: 0.35,
+          }} />
+          <div style={{
+            position: 'absolute',
+            left: '50%',
+            bottom: 0,
+            width: 16,
+            height: 16,
+            borderRadius: '50%',
+            border: `1.5px solid ${WL.ink}`,
+            transform: 'translateX(-50%)',
+            animation: 'wl-hero-swipe-up 1.6s ease-in-out infinite',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 3,
+              borderRadius: '50%',
+              background: WL.ink,
+              opacity: 0.6,
+            }} />
+          </div>
+        </div>
       </div>
     </section>
   );

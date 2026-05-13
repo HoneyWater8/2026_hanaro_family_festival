@@ -3,16 +3,19 @@ import { ScrollContext } from '../../hooks/useScrollTracker';
 
 const SUN_SIZE = 60;
 const WAVE_HEIGHT = 90;
-const PADDING_TOP = 24;
 const PADDING_RIGHT = 12;
-const TRANSITION_START = 0; // 마지막 20% 구간에서 A→B 슬라이드
+// 시작 위치 — 섹션 top edge로부터의 거리. phase 2에서는 viewport top에서 이 거리만큼 떨어진 곳에서 하강 시작
+const START_TOP = 96;
+// 도착 시 sun 하단이 wave 상단보다 얼마나 아래에 위치할지 (양수 = wave에 잠김)
+const LANDING_OVERLAP = 20;
 
 /**
  * Timeline 섹션의 시그니처 햇님.
- * - 섹션 진입 시 우상단 바깥에서 뿅 등장 (scale + translate transition).
- * - 스크롤 진행에 따라 광선/halo가 점점 약해짐. 본체는 항상 동일 밝기.
- * - 마지막 20% 구간(progress 0.8~1.0)에서 우상단 → wave 위로 부드럽게 슬라이드.
- * - 섹션이 화면을 벗어나면 자연스럽게 함께 스크롤되어 사라짐.
+ * - Phase 1: 섹션이 viewport에 진입하면 섹션 우상단(section.top + START_TOP)에 붙어 함께 스크롤.
+ *   섹션이 아래에서 올라오면서 자연스럽게 sun이 뿅 등장.
+ * - Phase 2: section.top이 viewport.top에 닿은 순간부터, sun이 viewport 안에서 아래로 내려감.
+ *   smoothstep 으로 부드럽게, 섹션 끝에서 wave 위에 도달.
+ * - 광선/halo는 phase 2 진행도에 따라 점점 페이드.
  */
 export const TimelineSun = memo(function TimelineSun() {
   const ctx = useContext(ScrollContext);
@@ -46,37 +49,36 @@ export const TimelineSun = memo(function TimelineSun() {
       const viewportH = root.clientHeight;
       const scrollTop = root.scrollTop;
 
-      const range = sectionH - viewportH;
-      const scrolledIn = scrollTop - sectionTop;
-      const progress = range > 0 ? scrolledIn / range : 0;
+      const sectionTopInVp = sectionTop - scrollTop;
+      const sectionBottomInVp = sectionTopInVp + sectionH;
 
-      // 가시성: section.top이 viewport.top에 닿거나 그 이상 스크롤 (progress >= 0).
-      const shouldShow = progress >= 0;
+      // 가시성: 섹션이 viewport와 겹칠 때
+      const shouldShow = sectionBottomInVp > 0 && sectionTopInVp < viewportH;
       setVisible(shouldShow);
+      if (!shouldShow) return;
 
-      if (!shouldShow) {
-        // 다음 등장 시 깨끗한 초기 상태로 시작하도록 변수 리셋.
-        sun.style.setProperty('--sun-top', `${PADDING_TOP}px`);
-        sun.style.setProperty('--ray-opacity', '1');
-        return;
+      // 포지션 — phase 1은 섹션과 함께, phase 2는 viewport 내부에서 하강 후 wave에 안착
+      const range = sectionH - viewportH;
+      let sunTop: number;
+      if (sectionTopInVp >= 0) {
+        // Phase 1: section.top이 viewport.top 아래. sun이 section.top + PADDING과 함께 이동
+        sunTop = sectionTopInVp + START_TOP;
+      } else {
+        // Phase 2: section.top이 viewport.top 통과. sun이 viewport 내부에서 하강
+        const scrolledPast = -sectionTopInVp;
+        const t = range > 0 ? Math.min(1, scrolledPast / range) : 0;
+        const blend = t * t * (3 - 2 * t); // smoothstep
+        const maxY = viewportH - WAVE_HEIGHT - SUN_SIZE + LANDING_OVERLAP;
+        const descendingY = START_TOP + blend * (maxY - START_TOP);
+        // wave의 실제 위치. 하강하던 sun이 wave에 닿으면 wave에 고정되어 함께 위로 이동
+        const waveTargetY = sectionBottomInVp - WAVE_HEIGHT - SUN_SIZE + LANDING_OVERLAP;
+        sunTop = Math.min(descendingY, waveTargetY);
       }
 
-      // 섹션 bottom의 viewport y 좌표 (스크롤 중 변함).
-      const secBotInVp = sectionTop + sectionH - scrollTop;
-      // Anchor B: wave SVG 바로 위 (sun 하단 = wave 상단).
-      const posBTop = secBotInVp - WAVE_HEIGHT - SUN_SIZE;
-
-      // progress 0.8~1.0 구간에서 A(우상단) → B(wave 위) 부드럽게 보간.
-      const k = Math.max(
-        0,
-        Math.min(1, (progress - TRANSITION_START) / (1 - TRANSITION_START))
-      );
-      const blend = k * k * (3 - 2 * k); // smoothstep
-      const sunTop = PADDING_TOP * (1 - blend) + posBTop * blend;
-
-      // 광선/halo 투명도: progress 0 → 1 동안 1 → 0.
-      const clamped = Math.max(0, Math.min(1, progress));
-      const rayOpacity = 1 - clamped;
+      // 광선 투명도: phase 2 진행도에 따라 페이드 (phase 1에서는 항상 풀 밝기)
+      const scrolledPast = Math.max(0, -sectionTopInVp);
+      const phase2Progress = range > 0 ? Math.min(1, scrolledPast / range) : 0;
+      const rayOpacity = 1 - phase2Progress;
 
       sun.style.setProperty('--sun-top', `${sunTop}px`);
       sun.style.setProperty('--ray-opacity', `${rayOpacity}`);
@@ -99,13 +101,11 @@ export const TimelineSun = memo(function TimelineSun() {
         pointerEvents: 'none',
         zIndex: 40,
         opacity: visible ? 1 : 0,
-        transform: visible
-          ? 'translate(0, 0) scale(1)'
-          : 'translate(60px, -60px) scale(0)',
-        // 등장: 살짝 오버슈트 bounce / 퇴장: 빠르게 사라짐.
+        transform: visible ? 'scale(1)' : 'scale(0)',
+        transformOrigin: 'center',
         transition: visible
-          ? 'opacity 0.45s ease-out, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'
-          : 'opacity 0.3s ease-in, transform 0.35s ease-in',
+          ? 'opacity 0.4s ease-out, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)'
+          : 'opacity 0.25s ease-in, transform 0.3s ease-in',
       }}
     >
       <SunSVG />

@@ -46,12 +46,12 @@ function MapPlaceholder({ name }: { name: string }) {
 
 export const Directions = memo(function Directions() {
   return (
-    <section data-screen-label="07 Directions" style={{
+    <section data-screen-label="08 Directions" style={{
       background: WL.ocean, color: WL.paper, padding: '50px 24px 0',
       position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100%'
     }}>
       <Reveal>
-        <IssueLabel num={7} label="DIRECTIONS" accent={WL.aqua} />
+        <IssueLabel num={8} label="DIRECTIONS" accent={WL.aqua} />
       </Reveal>
 
       <Reveal delay={0.1}>
@@ -99,7 +99,7 @@ export const Directions = memo(function Directions() {
           }}>{D.shuttle.detail}</div>
           <div style={{
             marginTop: 2, fontFamily: FF.sans, fontSize: 11,
-            color: WL.ink, opacity: 0.7
+            color: WL.ink, opacity: 0.7, whiteSpace: 'pre-line', lineHeight: 1.5
           }}>{D.shuttle.sub}</div>
         </div>
       </Reveal>

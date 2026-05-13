@@ -10,12 +10,6 @@
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet" />
   </head>
   <body class="no-frame">
-    <button
-      class="frame-toggle"
-      aria-label="Toggle device frame"
-      onclick="document.body.classList.toggle('frame-on'); document.body.classList.toggle('no-frame'); window.dispatchEvent(new Event('frame-toggle'));"
-    ></button>
-    <span class="frame-toggle-label">FRAME</span>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

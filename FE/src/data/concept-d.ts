@@ -9,7 +9,7 @@ export const D: ConceptD = {
   event: {
     host: "HANARO",
     title: "하나로 가족한마당",
-    titleEn: "HANARO FAMILY DAY",
+    titleEn: "HANARO FAMILY FESTIVAL",
     year: "2026",
     issue: "AMEN 17",
     tagline: "함께 만드는 특별한 하루",
@@ -41,15 +41,16 @@ export const D: ConceptD = {
     label: "INVITATION",
     greeting: "사랑하는 하나로 가족 여러분께,",
     body: [
-      "한 해 동안 함께 동행해주신 하나님과",
-      "가족, 그리고 이웃에게 감사하며,",
+      "늘 함께해 주시는 주님께 감사드립니다.",
+      "이 자리를 허락하신 주님을 찬양합니다.",
+      "사랑하는 하나로 가족, 새가족 여러분,",
       "",
       "아멘 17기가 정성으로 준비한",
       "2026 하나로 가족 한마당에",
       "여러분을 따뜻하게 초대합니다.",
       "",
       "하루 동안 함께 웃고, 함께 뛰며",
-      "잊지 못할 추억을 만들어요."
+      "이 자리에서 천국 맛보기의 소망을 함께 누리길 원합니다."
     ],
     signature: "아멘 17기 · 하나로 가족한마당 운영위원회",
     pullQuote: "함께 만드는,\n특별한 하루."
@@ -57,25 +58,25 @@ export const D: ConceptD = {
 
   // 04 TIMELINE — 행사 시간표 16개 (그룹 디바이더)
   timeline: [
-    { group: "오프닝", time: "~09:55", title: "접수",      desc: "기존가족·새가족 구분 팔찌 배부 (주차 큐알코드 구분)" },
+    { group: "오프닝", time: "~09:55", title: "접수",      desc: "기존가족·새가족 구분 팔찌 배부, 각각의 추첨함에 추첨권 취합" },
     { group: "오프닝", time: "10:00",  title: "집합",      desc: "운동장 중앙 집합 (사회: 이용규·서유리 집사)" },
     { group: "오프닝", time: "10:10",  title: "선서",      desc: "한마당 참여자 선서 (대표자: 박현수·강효림 집사)" },
     { group: "오프닝", time: "10:15",  title: "개회선언",  desc: "담임목사님 개회 선언 및 기도" },
     { group: "오프닝", time: "10:20",  title: "준비 체조", desc: "벨런스워킹 PT 체조 몸 풀기 (윤다이 청년)" },
 
-    { group: "오전",   time: "10:40",  title: "성경 퀴즈",       desc: "전 교인 대상" },
-    { group: "오전",   time: "11:00",  title: "물컵 들고 달리기", desc: "전 교인 대상 · 유아부 별도 운영(11~15시)" },
-    { group: "오전",   time: "11:30",  title: "신발 던지기",     desc: "전 교인 대상 · 남자·여자 구별해서 경기" },
-    { group: "오전",   time: "12:00",  title: "제기 차기",       desc: "전 교인 대상" },
-    { group: "오전",   time: "12:30",  title: "보물찾기",        desc: "전 교인 대상 · 푸짐한 경품" },
+    { group: "오전",   time: "10:40",  title: "전교인 O/X 퀴즈",        desc: "전 교인 대상 · 성경, 일상 문제" },
+    { group: "오전",   time: "11:00",  title: "물컵 들고 달리기",       desc: "전 교인 대상 · \n※유아/초등 레크리에이션 부스 별도 운영 (11~15시)" },
+    { group: "오전",   time: "11:30",  title: "신발 던지기",            desc: "전 교인 대상 · 남자·여자 구별하여 경기 (청/백전)" },
+    { group: "오전",   time: "12:00",  title: "제기 차기/계주 달리기",   desc: "전 교인 대상 · (청/백전)" },
+    { group: "오전",   time: "12:30",  title: "보물찾기",               desc: "전 교인 대상 · 곳곳에 숨겨진 보물 찾기" },
 
     { group: "오후",   time: "13:00",  title: "점심시간",        desc: "초원별 식사" },
     { group: "오후",   time: "14:00",  title: "모셔오기 게임",    desc: "교회학교 학생 대상 (초·중·고등) · 사회: 임현택 집사" },
-    { group: "오후",   time: "14:30",  title: "큰 공 굴리기",    desc: "전 교인 대상 (청 · 백전) · 남자장년·청년 풋살 5:5" },
+    { group: "오후",   time: "14:30",  title: "큰 공 굴리기",    desc: "전 교인 대상 (청/백전) · 남자장년·청년 풋살 5:5" },
     { group: "오후",   time: "15:00",  title: "족구 결승",       desc: "목사님팀 vs 교구팀" },
 
-    { group: "폐막",   time: "15:35",  title: "축복상 추첨",     desc: "기존가족·새가족·교회학교 게임 참여자" },
-    { group: "폐막",   time: "15:55",  title: "폐회 선언",        desc: "담임목사님 폐막 선언 및 기도" }
+    { group: "폐막",   time: "15:35",  title: "축복상 추첨",     desc: "기존가족·새가족 축복상 추첨" },
+    { group: "폐막",   time: "15:55",  title: "폐회 선언",       desc: "담임목사님 폐막 선언 및 기도" }
   ],
 
   // 05 PROGRAM — 연령별 캐러셀 (3행: 전연령 / 초등부 / 유아부)
@@ -127,8 +128,7 @@ export const D: ConceptD = {
       direction: "left",
       duration: 60,
       cards: [
-        { name: "에어바운스",     sub: "1~5세 전용",    time: "11:00 ~ 16:00", desc: "안전한 점프대에서 마음껏 뛰어놀 수 있어요. 1~5세 어린이를 위한 전용 시설입니다." },
-        { name: "작은 풀장",      sub: "1~5세 전용",    time: "11:00 ~ 16:00", desc: "여름의 시작을 알리는 시원한 물놀이. 1~5세 어린이를 위해 안전하게 준비했습니다." },
+        { name: "에어바운스",     sub: "1~5세 전용",    time: "11:00 ~ 16:00", desc: "안전한 점프대에서 마음껏 뛰어놀 수 있어요. 1~5세 어린이를 위한 전용 시설입니다.", image: '/cards/card_air_bounce.png' },
         { name: "페이스 페인팅",  sub: "캐릭터·그림",   time: "수시 운영",     desc: "원하는 캐릭터나 그림으로 얼굴을 예쁘게 꾸며보세요.", image: '/cards/card_facepainting.jpg' },
         { name: "아트 풍선",     sub: "원하는 모양",    time: "수시 운영",     desc: "강아지, 칼, 꽃 등 원하는 모양의 풍선을 즉석에서 만들어 드립니다.", image: '/cards/card_art_bloon.jpg' },
         { name: "레고·블록",     sub: "자유 조립",     time: "수시 운영",     desc: "다양한 블록으로 나만의 작품을 만들어 보세요.", image: '/cards/card_lego_block.jpg' },
@@ -158,20 +158,20 @@ export const D: ConceptD = {
     time: "수시 운영",
     note: "현장에서 조리",
     items: [
-      { name: "떡볶이",     desc: "매콤달콤",         image: '/foods/tteokbokki.jpg.png' },
-      { name: "순대",       desc: "쫄깃한 한 점",     image: '/foods/sundae.jpg.png' },
+      { name: "떡볶이",     desc: "매콤달콤",         image: '/foods/tteokbokki.png' },
+      { name: "순대",       desc: "쫄깃한 한 점",     image: '/foods/sundae.png' },
       { name: "어묵",       desc: "따뜻한 국물",      image: '/foods/fish_cake.png' },
       { name: "츄러스",     desc: "달콤한 페이스트리", image: '/foods/churros.png' },
       { name: "팝콘",       desc: "고소한 간식",      image: '/foods/popcorn.jpg' },
-      { name: "수박·파인애플", desc: "상큼한 여름 과일", image: '/foods/watermelon_pineapple.jpg' }
+      { name: "파인애플", desc: "상큼한 여름 과일", image: '/foods/pineapple.png' }
     ]
   },
 
   // 07 DIRECTIONS — 셔틀버스 / 주차
   shuttle: {
     label: "셔틀버스",
-    detail: "교회 출발 · 총 3대 운행",
-    sub: "09:00부터 10분 간격"
+    detail: "교회 출발/복귀 · 총 3대 운행",
+    sub: "09:00 (25인승) · 09:10 (28인승) · 09:20 (11인승)\n폐막 후 교회 복귀 셔틀 운영"
   },
   parking: [
     { label: "운동장 주차장",   detail: "승용 50대 + 공용 화장실 2동" },
@@ -185,7 +185,7 @@ export const D: ConceptD = {
     '/gallery/dynamic.png',
     '/gallery/foot_volleyball_1.jpg',
     '/gallery/foot_volleyball_2.jpg',
-    '/gallery/foot_volleyball_3.jpg.png',
+    '/gallery/foot_volleyball_3.png',
     '/gallery/futsal_1.jpg',
     '/gallery/futsal_2.jpg',
     '/gallery/kids.png',

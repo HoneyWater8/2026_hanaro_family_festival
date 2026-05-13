@@ -18,11 +18,12 @@ type GalleryPhotoProps = {
   /** 다음 이미지 요청 (부모가 다른 슬롯 상태 보고 고름). */
   requestNext: (slotIdx: number) => void;
   aspectRatio: string;
-  /** 첫 회전 시작 전 지연 (ms) — 슬롯 간 stagger 용 */
-  delay: number;
-  /** 회전 간격 (ms) */
-  intervalMs?: number;
 };
+
+// 각 슬롯이 독립적으로 랜덤 시점에 cycling — 시각적으로 wave 패턴 안 보이도록
+const SLOT_INITIAL_MAX_DELAY_MS = 4500;
+const SLOT_INTERVAL_MIN_MS = 4000;
+const SLOT_INTERVAL_MAX_MS = 7500;
 
 /** 한 슬롯 — 부모 controlled imageIndex를 받아 크로스페이드. */
 function GalleryPhoto({
@@ -31,8 +32,6 @@ function GalleryPhoto({
   slotIndex,
   requestNext,
   aspectRatio,
-  delay,
-  intervalMs = 5500,
 }: GalleryPhotoProps) {
   const [state, setState] = useState<SlotState>(() => {
     const src = images[imageIndex] ?? '';
@@ -40,31 +39,57 @@ function GalleryPhoto({
   });
 
   // imageIndex가 바뀔 때 크로스페이드 트리거 (비활성 layer에 새 이미지 넣고 active 플립).
+  // 새 이미지를 먼저 디코드해서 layer src 교체 시 직전 src의 잔상이 보이지 않도록 함
+  // (decode 안 하면 inactive layer가 이전에 가졌던 이미지를 잠깐 보여주면서 두 번 바뀌는 듯한 깜빡임 발생).
   useEffect(() => {
     const newSrc = images[imageIndex];
     if (!newSrc) return;
-    setState((prev) => {
-      if (newSrc === prev.layers[prev.active]) return prev;
-      const inactiveIdx: 0 | 1 = prev.active === 0 ? 1 : 0;
-      const newLayers: [string, string] = [prev.layers[0], prev.layers[1]];
-      newLayers[inactiveIdx] = newSrc;
-      return { layers: newLayers, active: inactiveIdx };
-    });
+
+    let cancelled = false;
+    const apply = () => {
+      if (cancelled) return;
+      setState((prev) => {
+        if (newSrc === prev.layers[prev.active]) return prev;
+        const inactiveIdx: 0 | 1 = prev.active === 0 ? 1 : 0;
+        const newLayers: [string, string] = [prev.layers[0], prev.layers[1]];
+        newLayers[inactiveIdx] = newSrc;
+        return { layers: newLayers, active: inactiveIdx };
+      });
+    };
+
+    const preload = new Image();
+    preload.src = newSrc;
+    // decode()는 Promise — 에러나도 그냥 적용 (alt 처리)
+    preload.decode().then(apply, apply);
+
+    return () => { cancelled = true; };
   }, [imageIndex, images]);
 
-  // 타이머: stagger 후 일정 간격으로 부모에 다음 이미지 요청.
+  // 타이머: 슬롯마다 독립 랜덤 스케줄. 초기 발사 시점과 매 사이클 간격 모두 랜덤 →
+  // 슬롯들이 위→아래 순서로 줄지어 바뀌는 wave 패턴이 사라짐.
   useEffect(() => {
-    let intervalId: ReturnType<typeof setInterval> | undefined;
-    const startTimer = setTimeout(() => {
-      intervalId = setInterval(() => {
+    let timerId: ReturnType<typeof setTimeout> | undefined;
+    let cancelled = false;
+
+    const scheduleNext = (wait: number) => {
+      timerId = setTimeout(() => {
+        if (cancelled) return;
         requestNext(slotIndex);
-      }, intervalMs);
-    }, delay);
-    return () => {
-      clearTimeout(startTimer);
-      if (intervalId !== undefined) clearInterval(intervalId);
+        const nextWait =
+          SLOT_INTERVAL_MIN_MS +
+          Math.random() * (SLOT_INTERVAL_MAX_MS - SLOT_INTERVAL_MIN_MS);
+        scheduleNext(nextWait);
+      }, wait);
     };
-  }, [delay, intervalMs, slotIndex, requestNext]);
+
+    // 첫 발사: 0 ~ SLOT_INITIAL_MAX_DELAY_MS 사이 랜덤
+    scheduleNext(Math.random() * SLOT_INITIAL_MAX_DELAY_MS);
+
+    return () => {
+      cancelled = true;
+      if (timerId !== undefined) clearTimeout(timerId);
+    };
+  }, [slotIndex, requestNext]);
 
   const cornerColor = `${WL.ink}66`;
   const layerStyle: CSSProperties = {
@@ -104,12 +129,12 @@ function GalleryPhoto({
 
 // 6개 슬롯 — isLarge는 기존 레이아웃 유지(슬롯 0, 3은 1:1.2 비율)
 const SLOT_CONFIGS = [
-  { isLarge: true,  delay: 200 },
-  { isLarge: false, delay: 1100 },
-  { isLarge: false, delay: 2000 },
-  { isLarge: true,  delay: 2900 },
-  { isLarge: false, delay: 3800 },
-  { isLarge: false, delay: 4700 },
+  { isLarge: true  },
+  { isLarge: false },
+  { isLarge: false },
+  { isLarge: true  },
+  { isLarge: false },
+  { isLarge: false },
 ];
 
 // 지난 가족 한마당 영상 (YouTube)
@@ -173,12 +198,12 @@ export const Gallery = memo(function Gallery() {
   }, []);
 
   return (
-    <section data-screen-label="08 Gallery" style={{
+    <section data-screen-label="07 Gallery" style={{
       background: WL.paperWarm, padding: '50px 24px 0',
       position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100%'
     }}>
       <Reveal>
-        <IssueLabel num={8} label="GALLERY" accent={WL.ink} />
+        <IssueLabel num={7} label="GALLERY" accent={WL.ink} />
       </Reveal>
 
       <Reveal delay={0.1}>
@@ -209,8 +234,6 @@ export const Gallery = memo(function Gallery() {
               slotIndex={i}
               requestNext={requestNext}
               aspectRatio={cfg.isLarge ? '1 / 1.2' : '1 / 1'}
-              delay={cfg.delay}
-              intervalMs={5500}
             />
           </Reveal>
         ))}

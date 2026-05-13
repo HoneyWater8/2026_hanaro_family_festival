@@ -9,6 +9,8 @@ import { ScrollContext, useScrollTracker } from './hooks/useScrollTracker';
 import { ResponsiveDevice } from './components/common/ResponsiveDevice';
 import { ProgressRail } from './components/common/ProgressRail';
 import { TimelineSun } from './components/common/TimelineSun';
+import { ShareFAB } from './components/common/ShareFAB';
+import { PullToRefresh } from './components/common/PullToRefresh';
 import { Hero } from './components/sections/Hero';
 import { Invite } from './components/sections/Invite';
 import { WhenWhere } from './components/sections/WhenWhere';
@@ -42,12 +44,14 @@ export default function App() {
             <Timeline />
             <Program />
             <Food />
-            <Directions />
             <Gallery />
+            <Directions />
             <RSVP />
           </div>
           <TimelineSun />
           <ProgressRail progress={progress} />
+          <ShareFAB />
+          <PullToRefresh scrollRef={scrollRef} />
         </div>
       </ResponsiveDevice>
     </ScrollContext.Provider>

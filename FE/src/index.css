@@ -96,6 +96,25 @@ body.no-frame .frame-toggle-label { color: rgba(15,42,61,0.55); }
   100% { transform: translate(-50%, -60px) scale(1); opacity: 0; }
 }
 
+/* Pull to refresh 스피너 회전 */
+@keyframes wl-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Share 시트 슬라이드 업 */
+@keyframes wl-sheet-up {
+  0%   { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+/* Hero 스크롤 힌트 — 손가락 터치 원이 아래에서 위로 이동하며 페이드 */
+@keyframes wl-hero-swipe-up {
+  0%   { transform: translate(-50%, 0);     opacity: 0; }
+  15%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translate(-50%, -28px); opacity: 0; }
+}
+
 /* CheerBoard 마일스톤 토스트 — 등장 → 잠시 hold → 위로 떠오르며 페이드아웃 (stacking) */
 @keyframes wl-cheer-milestone-toast {
   0%   { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
