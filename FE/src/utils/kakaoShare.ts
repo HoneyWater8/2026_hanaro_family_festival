@@ -1,21 +1,15 @@
 /* ─────────────────────────────────────────────────────────
    Kakao JavaScript SDK 동적 로더 + Share 호출
    - VITE_KAKAO_MAP_KEY (JS키) 재사용. Maps와 동일 키.
-   - sendDefault로 카카오톡에 feed 카드 전송.
+   - sendScrap으로 페이지의 OG 태그를 스크랩해 카드 전송.
+     (제목/설명/이미지는 index.html의 og:* meta 태그에서 가져옴)
    ───────────────────────────────────────────────────────── */
-
-type KakaoShareOpts = {
-  title: string;
-  description: string;
-  imageUrl: string;
-  link: string;
-};
 
 type KakaoSDK = {
   isInitialized: () => boolean;
   init: (key: string) => void;
   Share?: {
-    sendDefault: (params: unknown) => void;
+    sendScrap: (params: { requestUrl: string }) => void;
   };
 };
 
@@ -25,7 +19,8 @@ declare global {
   }
 }
 
-const SDK_URL = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js';
+const SDK_URL = 'https://t1.kakaocdn.net/kakao_js_sdk/2.8.1/kakao.min.js';
+const SDK_INTEGRITY = 'sha384-OL+ylM/iuPLtW5U3XcvLSGhE8JzReKDank5InqlHGWPhb4140/yrBw0bg0y7+C9J';
 
 let sdkPromise: Promise<void> | null = null;
 
@@ -36,6 +31,7 @@ function loadKakaoSdk(): Promise<void> {
     if (window.Kakao?.Share) return resolve();
     const script = document.createElement('script');
     script.src = SDK_URL;
+    script.integrity = SDK_INTEGRITY;
     script.async = true;
     script.crossOrigin = 'anonymous';
     script.onload = () => resolve();
@@ -45,7 +41,7 @@ function loadKakaoSdk(): Promise<void> {
   return sdkPromise;
 }
 
-export async function shareToKakao(opts: KakaoShareOpts): Promise<boolean> {
+export async function shareToKakao(url: string): Promise<boolean> {
   try {
     await loadKakaoSdk();
     const Kakao = window.Kakao;
@@ -53,27 +49,7 @@ export async function shareToKakao(opts: KakaoShareOpts): Promise<boolean> {
     const key = import.meta.env.VITE_KAKAO_MAP_KEY;
     if (key && !Kakao.isInitialized()) Kakao.init(key);
     if (!Kakao.Share) return false;
-    Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: opts.title,
-        description: opts.description,
-        imageUrl: opts.imageUrl,
-        link: {
-          mobileWebUrl: opts.link,
-          webUrl: opts.link,
-        },
-      },
-      buttons: [
-        {
-          title: '초대장 보기',
-          link: {
-            mobileWebUrl: opts.link,
-            webUrl: opts.link,
-          },
-        },
-      ],
-    });
+    Kakao.Share.sendScrap({ requestUrl: url });
     return true;
   } catch (e) {
     // eslint-disable-next-line no-console

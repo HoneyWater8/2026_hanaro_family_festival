@@ -5,9 +5,6 @@ import { WL, FF } from '../../theme/tokens';
 import { shareToKakao } from '../../utils/kakaoShare';
 
 const SHARE_URL = 'https://2026hanarofamilyfestival.vercel.app';
-const SHARE_TITLE = '2026 하나로 가족 한마당에 초대합니다.';
-const SHARE_DESC = '06.03 (수) · 김포골드밸리 · 누구든지';
-const SHARE_IMAGE = `${SHARE_URL}/icons/thumbnail.png`;
 
 const shareItemStyle: CSSProperties = {
   display: 'flex',
@@ -107,12 +104,7 @@ export const ShareFAB = memo(function ShareFAB() {
   }, [closeSheet, showToast]);
 
   const handleKakao = useCallback(async () => {
-    const ok = await shareToKakao({
-      title: SHARE_TITLE,
-      description: SHARE_DESC,
-      imageUrl: SHARE_IMAGE,
-      link: SHARE_URL,
-    });
+    const ok = await shareToKakao(SHARE_URL);
     if (ok) closeSheet();
     else showToast('카카오톡 공유에 실패했어요');
   }, [closeSheet, showToast]);
