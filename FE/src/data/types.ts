@@ -90,8 +90,12 @@ export type ConceptD = {
     label: string;
     labelEn: string;
     items: Array<{ tag: string; detail: string }>;
-    /** 두 혜택 모두에 적용되는 공통 안내 (마감 시간, 조기 종료 등) */
-    note: string;
+    /** 두 혜택 모두에 적용되는 공통 안내. deadline+highlight는 강조 표시, caveat는 보조 설명 */
+    note: {
+      deadline: string;   // 예: "~ 09:30"  (badge)
+      highlight: string;  // 예: "선착순 마감" (bold)
+      caveat: string;     // 예: "일찍 오신 순서대로, 조기 종료될 수 있어요"
+    };
   };
   timeline: TimelineItem[];
   /** Awards 섹션 — 1등 상 + 그 외 축복상 4종 */

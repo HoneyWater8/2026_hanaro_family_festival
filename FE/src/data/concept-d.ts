@@ -64,7 +64,11 @@ export const D: ConceptD = {
       { tag: "치킨",   detail: "초원식구 전원 출석한 초원, 1마리 (선착순 100초원)" },
       { tag: "추첨권", detail: "출석 인별 추가 1장 (선착순 100명)" }
     ],
-    note: "09:30까지 · 일찍 오신 순서대로 마감 (조기 종료될 수 있어요)"
+    note: {
+      deadline: "~ 09:30",
+      highlight: "선착순 마감",
+      caveat: "※ 일찍 오신 순서대로, 조기 종료될 수 있어요"
+    }
   },
 
   // 04 TIMELINE — 행사 시간표 16개 (그룹 디바이더)
@@ -164,7 +168,6 @@ export const D: ConceptD = {
         { name: "페이스 페인팅",  sub: "캐릭터·그림",   time: "수시 운영",     desc: "원하는 캐릭터나 그림으로 얼굴을 예쁘게 꾸며보세요.", image: '/cards/card_facepainting.jpg' },
         { name: "아트 풍선",     sub: "원하는 모양",    time: "수시 운영",     desc: "강아지, 칼, 꽃 등 원하는 모양의 풍선을 즉석에서 만들어 드립니다.", image: '/cards/card_art_bloon.jpg' },
         { name: "레고·블록",     sub: "자유 조립",     time: "수시 운영",     desc: "다양한 블록으로 나만의 작품을 만들어 보세요.", image: '/cards/card_lego_block.jpg' },
-        { name: "솜사탕",        sub: "달콤·폭신",     time: "수시 운영",     desc: "달콤하고 폭신한 솜사탕. 아이들이 가장 좋아하는 간식입니다.", image: '/cards/card_candy_fluff.jpg' },
         { name: "퍼즐 맞추기",   sub: "그림 완성",     time: "수시 운영",     desc: "그림 퍼즐을 완성하며 집중력을 키워보세요.", image: '/cards/card_puzzle.jpg' },
         { name: "낚시 게임",     sub: "자석 낚시",     time: "수시 운영",     desc: "자석으로 물고기를 잡는 어린이용 낚시 게임입니다.", image: '/cards/card_fishing_game.jpg' },
         { name: "부채 꾸미기",   sub: "여름 부채",     time: "수시 운영",     desc: "직접 그림을 그리고 색칠해서 나만의 부채를 만들어 보세요.", image: '/cards/card_diy_fan.jpg' },

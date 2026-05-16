@@ -112,16 +112,36 @@ export const Timeline = memo(function Timeline() {
               ? 'wl-benefit-pop 0.95s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both, wl-benefit-shimmer 3.5s linear infinite'
               : 'none',
           }}>
+            {/* 헤더 — 🎁 출석 이벤트 옆에 마감 배지 + 선착순 + 부연을 가로로 묶음 (위아래 중앙 정렬) */}
             <div style={{
-              display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
-              gap: 10, marginBottom: 12,
+              display: 'flex', alignItems: 'center', gap: 8,
+              marginBottom: 14, flexWrap: 'wrap',
             }}>
               <span style={{
                 fontFamily: FF.han, fontSize: 22, color: fg, letterSpacing: -0.5,
               }}>🎁 {D.openingBenefits.label}</span>
+              {/* 배지 + 선착순 마감 — 명시적 height로 박스화하여 위아래 중앙 정렬 */}
               <span style={{
-                fontFamily: FF.bebas, fontSize: 10, letterSpacing: 2, color: fg, opacity: 0.55,
-              }}>{D.openingBenefits.labelEn}</span>
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                height: 22,
+              }}>
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center',
+                  height: '100%',
+                  background: '#F59C2E', color: WL.ink,
+                  padding: '0 9px', borderRadius: 4,
+                  fontFamily: FF.bebas, fontSize: 12, letterSpacing: 1.5, fontWeight: 700,
+                }}>⏰ {D.openingBenefits.note.deadline}</span>
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center',
+                  height: '100%',
+                  fontFamily: FF.sans, fontSize: 13, fontWeight: 800, color: fg,
+                }}>{D.openingBenefits.note.highlight}</span>
+              </span>
+              <span style={{
+                fontFamily: FF.sans, fontSize: 11, color: fg, opacity: 0.65,
+                lineHeight: 1.4,
+              }}>{D.openingBenefits.note.caveat}</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {D.openingBenefits.items.map((item, ii) => (
@@ -142,14 +162,6 @@ export const Timeline = memo(function Timeline() {
                   }}>{item.detail}</span>
                 </div>
               ))}
-            </div>
-            {/* 공통 안내 — 마감 시간 / 조기 종료 가능 */}
-            <div style={{
-              marginTop: 12, paddingTop: 10, borderTop: `1px dashed ${WL.ink}33`,
-              fontFamily: FF.sans, fontSize: 11, color: fg, opacity: 0.75,
-              lineHeight: 1.45,
-            }}>
-              ⏰ {D.openingBenefits.note}
             </div>
           </div>
 
