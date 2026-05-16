@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { D } from '../../data/concept-d';
 import { WL, FF } from '../../theme/tokens';
 import { Reveal } from '../common/Reveal';
@@ -29,6 +29,19 @@ export const Hero = memo(function Hero() {
       }
     });
   }, [scrollCtx]);
+
+  // VENUE 클릭 시 클립보드 복사 + 1.5s 색 변화 피드백
+  const [venueCopied, setVenueCopied] = useState(false);
+  const venueCopyTimerRef = useRef<number | null>(null);
+  const VENUE_COPY_TEXT = '김포골드밸리 중앙체육공원 (학운리 4288)';
+  const handleVenueCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(VENUE_COPY_TEXT);
+      setVenueCopied(true);
+      if (venueCopyTimerRef.current) window.clearTimeout(venueCopyTimerRef.current);
+      venueCopyTimerRef.current = window.setTimeout(() => setVenueCopied(false), 1500);
+    } catch { /* ignore */ }
+  }, []);
 
   return (
     <section data-screen-label="01 Hero" style={{
@@ -79,22 +92,61 @@ export const Hero = memo(function Hero() {
           {[
             { k: 'DATE',  v: D.schedule.dateDisplay },
             { k: 'TIME',  v: D.schedule.timeDisplay },
-            { k: 'VENUE', v: '김포골드밸리' }
-          ].map((m, i) => (
-            <div key={i} style={{
-              borderLeft: i > 0 ? `1px solid ${WL.ink}22` : 'none',
-              paddingLeft: i > 0 ? 10 : 0
-            }}>
-              <div style={{ fontFamily: FF.bebas, fontSize: 9, letterSpacing: 2, color: WL.ink, opacity: 0.6 }}>{m.k}</div>
-              <div style={{
-                fontFamily: i === 2 ? FF.sans : FF.bebas,
-                fontWeight: i === 2 ? 700 : 400,
-                fontSize: i === 2 ? 12 : 14,
-                letterSpacing: i === 2 ? 0 : 1,
-                color: WL.ink, marginTop: 4
-              }}>{m.v}</div>
-            </div>
-          ))}
+            { k: 'VENUE', v: '김포골드밸리 중앙체육공원\n(학운리 4288)' }
+          ].map((m, i) => {
+            const isVenue = i === 2;
+            return (
+              <div
+                key={i}
+                onClick={isVenue ? handleVenueCopy : undefined}
+                title={isVenue ? '클릭하면 주소가 복사돼요' : undefined}
+                style={{
+                  position: 'relative',
+                  borderLeft: i > 0 ? `1px solid ${WL.ink}22` : 'none',
+                  paddingLeft: i > 0 ? 10 : 0,
+                  cursor: isVenue ? 'pointer' : 'default',
+                  userSelect: isVenue ? 'none' : 'auto',
+                  WebkitTapHighlightColor: 'transparent',
+                }}
+              >
+                <div style={{ fontFamily: FF.bebas, fontSize: 9, letterSpacing: 2, color: WL.ink, opacity: 0.6 }}>{m.k}</div>
+                <div style={{
+                  fontFamily: isVenue ? FF.sans : FF.bebas,
+                  fontWeight: isVenue ? 700 : 400,
+                  fontSize: isVenue ? 11 : 14,
+                  letterSpacing: isVenue ? 0 : 1,
+                  lineHeight: isVenue ? 1.35 : 1.2,
+                  whiteSpace: isVenue ? 'pre-line' : 'normal',
+                  color: isVenue && venueCopied ? WL.ocean : WL.ink,
+                  marginTop: 4,
+                  transition: 'color 0.25s ease',
+                }}>{m.v}</div>
+                {/* COPIED 배지 — venue 텍스트 위에 떠올랐다 사라짐 (레이아웃 안 흔듦) */}
+                {isVenue && (
+                  <div style={{
+                    position: 'absolute',
+                    top: -6,
+                    left: i > 0 ? 10 : 0,
+                    fontFamily: FF.bebas,
+                    fontSize: 9,
+                    letterSpacing: 2,
+                    color: WL.ocean,
+                    background: WL.paper,
+                    padding: '2px 6px',
+                    border: `1px solid ${WL.ocean}66`,
+                    borderRadius: 3,
+                    opacity: venueCopied ? 1 : 0,
+                    transform: venueCopied ? 'translateY(0)' : 'translateY(4px)',
+                    transition: 'opacity 0.25s ease, transform 0.25s ease',
+                    pointerEvents: 'none',
+                    whiteSpace: 'nowrap',
+                  }}>
+                    ✓ COPIED
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </Reveal>
 

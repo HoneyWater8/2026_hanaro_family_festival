@@ -21,9 +21,9 @@ export const D: ConceptD = {
     dateDisplay: "06 · 03",
     day: "WEDNESDAY",
     dayKo: "수요일",
-    timeStart: "09:55",
-    timeEnd: "15:55",
-    timeDisplay: "09:55 — 15:55"
+    timeStart: "09:00",
+    timeEnd: "16:00",
+    timeDisplay: "09:00 — 16:00"
   },
 
   location: {
@@ -56,9 +56,20 @@ export const D: ConceptD = {
     pullQuote: "함께 만드는,\n특별한 하루."
   },
 
+  // 04 TIMELINE 오프닝 위에 표시되는 출석 혜택 안내
+  openingBenefits: {
+    label: "출석 이벤트",
+    labelEn: "EVENT",
+    items: [
+      { tag: "치킨",   detail: "초원식구 전원 출석한 초원, 1마리 (선착순 100초원)" },
+      { tag: "추첨권", detail: "출석 인별 추가 1장 (선착순 100명)" }
+    ],
+    note: "09:30까지 · 일찍 오신 순서대로 마감 (조기 종료될 수 있어요)"
+  },
+
   // 04 TIMELINE — 행사 시간표 16개 (그룹 디바이더)
   timeline: [
-    { group: "오프닝", time: "~09:55", title: "접수",      desc: "기존가족·새가족 구분 팔찌 배부, 각각의 추첨함에 추첨권 취합" },
+    { group: "오프닝", time: "09:00", title: "접수",      desc: "기존가족·새가족 구분 팔찌 배부, 각각의 추첨함에 추첨권 취합" },
     { group: "오프닝", time: "10:00",  title: "집합",      desc: "운동장 중앙 집합 (사회: 이용규·서유리 집사)" },
     { group: "오프닝", time: "10:10",  title: "선서",      desc: "한마당 참여자 선서 (대표자: 박현수·강효림 집사)" },
     { group: "오프닝", time: "10:15",  title: "개회선언",  desc: "담임목사님 개회 선언 및 기도" },
@@ -160,10 +171,8 @@ export const D: ConceptD = {
     items: [
       { name: "떡볶이",     desc: "매콤달콤",         image: '/foods/tteokbokki.png' },
       { name: "순대",       desc: "쫄깃한 한 점",     image: '/foods/sundae.png' },
-      { name: "어묵",       desc: "따뜻한 국물",      image: '/foods/fish_cake.png' },
-      { name: "츄러스",     desc: "달콤한 페이스트리", image: '/foods/churros.png' },
       { name: "팝콘",       desc: "고소한 간식",      image: '/foods/popcorn.jpg' },
-      { name: "파인애플", desc: "상큼한 여름 과일", image: '/foods/pineapple.png' }
+      { name: "수박", desc: "시원한 여름 과일", image: '/foods/watermelon.png' }
     ]
   },
 

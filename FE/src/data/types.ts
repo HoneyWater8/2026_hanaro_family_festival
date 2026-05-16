@@ -85,6 +85,14 @@ export type ConceptD = {
     signature: string;
     pullQuote: string;
   };
+  /** Timeline 섹션 오프닝 그룹 위에 표시되는 출석 혜택 안내 */
+  openingBenefits: {
+    label: string;
+    labelEn: string;
+    items: Array<{ tag: string; detail: string }>;
+    /** 두 혜택 모두에 적용되는 공통 안내 (마감 시간, 조기 종료 등) */
+    note: string;
+  };
   timeline: TimelineItem[];
   programRows: ProgramRowData[];
   foodLunch: FoodSection;
