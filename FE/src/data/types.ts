@@ -94,6 +94,28 @@ export type ConceptD = {
     note: string;
   };
   timeline: TimelineItem[];
+  /** Awards 섹션 — 1등 상 + 그 외 축복상 4종 */
+  blessingAwards: {
+    label: string;
+    labelEn: string;
+    intro: string;
+    grandPrize: {
+      label: string;        // "1등 상"
+      labelEn: string;      // "GRAND PRIZE"
+      name: string;
+      value: string;        // "170만원 상당"
+      quantity: string;     // "1대"
+      image?: string;
+    };
+    items: Array<{
+      name: string;
+      detail: string;
+      price?: string;
+      quantity: string;
+      note?: string;
+      image?: string;
+    }>;
+  };
   programRows: ProgramRowData[];
   foodLunch: FoodSection;
   foodSnack: FoodSection;

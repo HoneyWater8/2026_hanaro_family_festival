@@ -198,12 +198,12 @@ export const Gallery = memo(function Gallery() {
   }, []);
 
   return (
-    <section data-screen-label="07 Gallery" style={{
+    <section data-screen-label="08 Gallery" style={{
       background: WL.paperWarm, padding: '50px 24px 0',
       position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100%'
     }}>
       <Reveal>
-        <IssueLabel num={7} label="GALLERY" accent={WL.ink} />
+        <IssueLabel num={8} label="GALLERY" accent={WL.ink} />
       </Reveal>
 
       <Reveal delay={0.1}>

@@ -90,7 +90,28 @@ export const D: ConceptD = {
     { group: "폐막",   time: "15:55",  title: "폐회 선언",       desc: "담임목사님 폐막 선언 및 기도" }
   ],
 
-  // 05 PROGRAM — 연령별 캐러셀 (3행: 전연령 / 초등부 / 유아부)
+  // 05 AWARDS — 축복상 (1등 상 + 그 외 4종)
+  blessingAwards: {
+    label: "축복상",
+    labelEn: "AWARDS",
+    intro: "참여자 모두를 위한 푸짐한 상품 · 15:35 추첨",
+    grandPrize: {
+      label: "1등 상",
+      labelEn: "GRAND PRIZE",
+      name: "전기 자전거",
+      value: "170만원 상당",
+      quantity: "1대",
+      image: '/awards/electric_bicycle.png'
+    },
+    items: [
+      { name: "달소미",       detail: "수제과자 교환 상품권", price: "22,000원 상당", quantity: "30개", image: '/awards/dalsomi.png' },
+      { name: "스테인드 생츄어리 커피", detail: "상품권",              price: "10,000원권", quantity: "20개", image: '/awards/stained_sanctuary_cafe.png' },
+      { name: "캘리그라피",   detail: "성경말씀 액자",                          quantity: "20개", image: '/awards/calligraphy_frame.png' },
+      { name: "Q사랑 염색 전문점",        detail: "염색권",              price: "30,000원권", quantity: "10개", note: "장기점", image: '/awards/q_love_dyeing.png' }
+    ]
+  },
+
+  // 06 PROGRAM — 연령별 캐러셀 (3행: 전연령 / 초등부 / 유아부)
   programRows: [
     {
       key: "all",

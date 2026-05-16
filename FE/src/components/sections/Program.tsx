@@ -438,13 +438,13 @@ export const Program = memo(function Program() {
   };
 
   return (
-    <section data-screen-label="05 Program" style={{
+    <section data-screen-label="06 Program" style={{
       background: WL.paper, padding: '50px 0 0',
       position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100%'
     }}>
       <div style={{ padding: '0 24px' }}>
         <Reveal>
-          <IssueLabel num={5} label="PROGRAM" accent={WL.ink} />
+          <IssueLabel num={6} label="PROGRAM" accent={WL.ink} />
         </Reveal>
 
         <Reveal delay={0.1}>

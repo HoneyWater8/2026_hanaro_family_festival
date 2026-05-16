@@ -8,12 +8,12 @@ import { CheerBoard } from '../common/CheerBoard';
 
 export const RSVP = memo(function RSVP() {
   return (
-    <section data-screen-label="09 RSVP" style={{
+    <section data-screen-label="10 RSVP" style={{
       background: WL.sun, color: WL.ink, padding: '50px 24px 40px',
       position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100%'
     }}>
       <Reveal>
-        <IssueLabel num={9} label="RSVP" accent={WL.ink} />
+        <IssueLabel num={10} label="RSVP" accent={WL.ink} />
       </Reveal>
 
       <Reveal delay={0.1}>
