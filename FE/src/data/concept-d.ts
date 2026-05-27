@@ -129,7 +129,8 @@ export const D: ConceptD = {
         { name: "바자회",     sub: "수익금 전액 선교헌금",   time: "11:00 ~ 16:00", desc: "교우 여러분이 기증해 주신 좋은 물건을 합리적인 가격에 만나볼 수 있는 자리. 수익금 전액은 선교헌금으로 사용됩니다.", image: '/cards/card_bazaar.jpg'},
         { name: "성경 퀴즈",  sub: "전 교인 대상",              time: "10:40",         desc: "남녀노소 누구나 즐길 수 있는 성경 상식 문제. 정답자에게는 작은 선물이 기다립니다.", image: '/cards/card_bible_quiz.png' },
         { name: "보물찾기",   sub: "푸짐한 경품",            time: "12:30",         desc: "운동장 곳곳에 숨겨진 보물쪽지를 찾아보세요. 모든 성도가 함께 즐기는 시간입니다.", image: '/cards/card_treasure_hunt.avif'},
-        { name: "축복상 추첨", sub: "참여자 모두 대상",       time: "15:35",         desc: "오늘 하루를 마무리하며 모두가 기대하는 축복상 추첨. 기존가족·새가족·교회학교 게임 참여자를 대상으로 진행됩니다.", image: 'cards/card_blessing_award.png' }
+        { name: "축복상 추첨", sub: "참여자 모두 대상",       time: "15:35",         desc: "오늘 하루를 마무리하며 모두가 기대하는 축복상 추첨. 기존가족·새가족·교회학교 게임 참여자를 대상으로 진행됩니다.", image: 'cards/card_blessing_award.png' },
+        { name: "바이킹",     sub: "20인승",              time: "10:40 ~ 15:50", desc: "20인승 바이킹! 5세 이하는 보호자 동반 탑승입니다.", image: '/cards/viking.jpg' }
       ]
     },
     {
