@@ -16,6 +16,7 @@ import { Invite } from './components/sections/Invite';
 import { WhenWhere } from './components/sections/WhenWhere';
 import { Timeline } from './components/sections/Timeline';
 import { Awards } from './components/sections/Awards';
+import { KidsStampRewards } from './components/sections/KidsStampRewards';
 import { Program } from './components/sections/Program';
 import { Food } from './components/sections/Food';
 import { Directions } from './components/sections/Directions';
@@ -44,6 +45,7 @@ export default function App() {
             <WhenWhere />
             <Timeline />
             <Awards />
+            <KidsStampRewards />
             <Program />
             <Food />
             <Gallery />

@@ -92,6 +92,47 @@ export const D: ConceptD = {
     { group: "폐막",   time: "15:55",  title: "폐회 선언",       desc: "담임목사님 폐막 선언 및 기도" }
   ],
 
+  // 06 KIDS PRIZES — 유초등부 스탬프 부스 보상 (1~6등)
+  kidsStampRewards: {
+    label: "유초등부 상품",
+    labelEn: "KIDS PRIZES",
+    target: "유년부 · 초등부 (1–6학년)",
+    rules: [
+      "각 부스를 체험하며 성공할 때마다 스탬프를 받을 수 있어요.",
+      "모든 스탬프를 완성한 어린이는 상품 수령 부스로 이동하며, 도착 순서 기준 선착순 지급됩니다."
+    ],
+    caveat: "※ 먼저 도착한 어린이부터 원하는 등수 상품을 선택 및 수령합니다.",
+    tiers: [
+      {
+        rank: "1등", rankEn: "1ST", winnerCount: "1명",
+        items: [{ name: "다이소 상품권", quantity: "10만원", image: '/awards_kids/daiso_100000.jpg' }]
+      },
+      {
+        rank: "2등", rankEn: "2ND", winnerCount: "1명",
+        items: [{ name: "레고 세트", image: '/awards_kids/lego.jpg' }]
+      },
+      {
+        rank: "3등", rankEn: "3RD", winnerCount: "1명",
+        items: [{ name: "블루투스 스피커", image: '/awards_kids/speaker.jpg' }]
+      },
+      {
+        rank: "4등", rankEn: "4TH", winnerCount: "10명",
+        items: [{ name: "카시오 어린이 시계", image: '/awards_kids/watch.jpg' }]
+      },
+      {
+        rank: "5등", rankEn: "5TH", winnerCount: "10명",
+        items: [{ name: "다이소 상품권", quantity: "2만원", image: '/awards_kids/daiso_20000.jpg' }]
+      },
+      {
+        rank: "6등", rankEn: "6TH", winnerCount: "30명",
+        items: [
+          { name: "카피바라 인형", quantity: "15개", image: '/awards_kids/capybara.jpg' },
+          { name: "ADICO DIY 키트", quantity: "15개", image: '/awards_kids/diy_miniature.jpg' }
+        ]
+      }
+    ]
+  },
+
   // 05 AWARDS — 축복상 (1등 상 + 그 외 4종)
   blessingAwards: {
     label: "축복상",
@@ -151,7 +192,7 @@ export const D: ConceptD = {
         { name: "탁구공 옮기기", sub: "숟가락 이동",     time: "스탬프 미션",  desc: "숟가락 위에 탁구공을 올리고 떨어뜨리지 않게 옮겨보세요.", image: '/cards/card_moving_pingpong.jpg' },
         { name: "스피드 컵",     sub: "정해진 모양 쌓기", time: "스탬프 미션",  desc: "제한 시간 내에 컵을 정해진 모양으로 쌓는 도전입니다.", image: '/cards/card_cup_stacking.jpg' },
         { name: "병뚜껑 다트",   sub: "표적 안 멈추기",  time: "스탬프 미션",  desc: "병뚜껑을 미끄러뜨려 표적 안에 정확히 멈추도록 해보세요.", image: '/cards/card_cap_curling.jpg' },
-        { name: "선물 뽑기",     sub: "스탬프 5·10개",   time: "최종 보상",    desc: "스탬프 5개로 일반 선물, 10개로 특별 선물 뽑기에 도전할 수 있습니다.", image: '/cards/card_lucky_drawing.jpg' }
+        { name: "스탬프 완성 보상", sub: "선착순 1~6등 상품",   time: "최종 보상",    desc: "모든 부스의 스탬프를 완성하면 상품 수령 부스로! 도착 순서 기준 선착순으로 1~6등 상품을 선택해 가져갈 수 있습니다. (자세한 상품은 KIDS PRIZES 섹션 참고)", image: '/cards/card_lucky_drawing.jpg' }
       ]
     },
     {

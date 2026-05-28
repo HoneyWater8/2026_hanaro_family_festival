@@ -98,6 +98,24 @@ export type ConceptD = {
     };
   };
   timeline: TimelineItem[];
+  /** Kids Stamp Rewards 섹션 — 유초등부 부스 스탬프 완성 보상 (1~6등) */
+  kidsStampRewards: {
+    label: string;
+    labelEn: string;
+    target: string;       // "유년부 · 초등부 (1–6학년)"
+    rules: string[];      // 진행 방식 설명
+    caveat: string;       // "※ 먼저 도착한 어린이부터 ..."
+    tiers: Array<{
+      rank: string;        // "1등"
+      rankEn: string;      // "1ST"
+      winnerCount: string; // "1명"
+      items: Array<{
+        name: string;
+        quantity?: string; // "15개" 같이 항목 내부 수량 (6등의 분할 항목용)
+        image?: string;
+      }>;
+    }>;
+  };
   /** Awards 섹션 — 1등 상 + 그 외 축복상 4종 */
   blessingAwards: {
     label: string;

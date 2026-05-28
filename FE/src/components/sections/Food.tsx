@@ -80,12 +80,12 @@ function FoodBlock({ d, accent, blue = false }: FoodBlockProps) {
 
 export const Food = memo(function Food() {
   return (
-    <section data-screen-label="07 Food" style={{
+    <section data-screen-label="08 Food" style={{
       background: WL.aqua, padding: '50px 24px 0',
       position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100%'
     }}>
       <Reveal>
-        <IssueLabel num={7} label="FOOD" accent={WL.ink} />
+        <IssueLabel num={8} label="FOOD" accent={WL.ink} />
       </Reveal>
 
       <Reveal delay={0.1}>
