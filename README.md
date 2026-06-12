@@ -54,6 +54,46 @@
 - **ShareFAB** — 우하단 글래스모피즘 공유 버튼. 클릭 시 바텀시트(링크 복사 / 카카오톡 공유), 핸들 드래그로 닫기.
 - **PullToRefresh** — 페이지 최상단에서 아래로 당기면 글래스모피즘 인디케이터가 따라 내려오고 임계점 이상에서 손 떼면 새로고침.
 
+### 섹션별 스크린샷
+
+행사 최종 배포본 (2026-06-03 기준).
+
+<table>
+<tr>
+<td align="center" width="50%"><b>§ 01 Hero</b><br><img src="./docs/screen-image/1.jpg" width="280" alt="Hero"></td>
+<td align="center" width="50%"><b>§ 02 Invite</b><br><img src="./docs/screen-image/2.jpg" width="280" alt="Invite"></td>
+</tr>
+<tr>
+<td align="center"><b>§ 03 When · Where</b><br><img src="./docs/screen-image/3.jpg" width="280" alt="When/Where"></td>
+<td align="center"><b>§ 05 Awards</b><br><img src="./docs/screen-image/5.jpg" width="280" alt="Awards"></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<b>§ 04 Timeline</b> — 스크롤 진행에 따라 paper → dusk 배경 전환, 햇님이 하강하여 wave에 안착<br>
+<img src="./docs/screen-image/4-1.jpg" width="280" alt="Timeline 전반부">
+<img src="./docs/screen-image/4-2.jpg" width="280" alt="Timeline 후반부">
+</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<b>§ 06 Kids Prizes</b> — 유·초등부 스탬프 부스 보상 (대상·규칙 + 1~6등 tier)<br>
+<img src="./docs/screen-image/6-1.jpg" width="280" alt="Kids Prizes 상단">
+<img src="./docs/screen-image/6-2.jpg" width="280" alt="Kids Prizes 하단">
+</td>
+</tr>
+<tr>
+<td align="center"><b>§ 07 Program</b><br><img src="./docs/screen-image/7.jpg" width="280" alt="Program"></td>
+<td align="center"><b>§ 08 Food</b><br><img src="./docs/screen-image/8.jpg" width="280" alt="Food"></td>
+</tr>
+<tr>
+<td align="center"><b>§ 09 Gallery</b><br><img src="./docs/screen-image/9.jpg" width="280" alt="Gallery"></td>
+<td align="center"><b>§ 10 Directions</b><br><img src="./docs/screen-image/10.jpg" width="280" alt="Directions"></td>
+</tr>
+<tr>
+<td colspan="2" align="center"><b>§ 11 RSVP</b><br><img src="./docs/screen-image/11.jpg" width="280" alt="RSVP"></td>
+</tr>
+</table>
+
 ---
 
 ## 폴더 구조
@@ -91,7 +131,7 @@
 │   ├── vite.config.ts
 │   ├── tsconfig*.json
 │   └── package.json
-├── FE-legacy/                          # 컨셉 탐색 단계 정적 HTML 프로토타입
+├── FE-legacy/                          # 디자인 제안서(4컨셉) + 정적 HTML 프로토타입 2종
 └── 2026 하나로 가족 한마당 수정안/      # 행사 운영팀 원본 자료
 ```
 
@@ -296,4 +336,4 @@ CheerBoard에서 사용자가 5개 이모지를 토글한 누적값. Redis `chee
 - 행사 운영 — **하나로교회 아멘 17기**
 - 디자인 & 개발 — **HONEYWATER** ([@HoneyWater8](https://github.com/HoneyWater8))
 
-레거시 컨셉 탐색본은 `FE-legacy/` 폴더에 정적 HTML(Babel-standalone) 형태로 보존되어 있습니다 (solar-pop, wave-layers 등 디자인 컨셉 탐색 과정).
+디자인 탐색 단계 자료는 [`FE-legacy/`](./FE-legacy/) 에 모두 아카이브되어 있습니다 — 4컨셉(Pastel Breeze · Solar Pop · Beach Picnic · **Wave Layers**) 제안서 PDF와 그중 두 방향(B · D)의 Babel-standalone HTML 프로토타입. 최종 채택된 컨셉 D(Wave Layers)가 이 정식 React 앱으로 발전했습니다. 자세한 흐름은 [`FE-legacy/README.md`](./FE-legacy/README.md) 참고.
